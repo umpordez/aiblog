@@ -4,8 +4,8 @@
     "main": "index.js",
     "scripts": {
         "build": "tsc -p .",
-        "lint": "DEBUG=typescript-eslint:*. eslint .",
-        "lint:fix": "eslint . --fix",
+        "lint": "DEBUG=typescript-eslint:*. eslint . --ignore-pattern \"build\"",
+        "lint:fix": "eslint . --fix --ignore-pattern \"build/\"",
         "test": "node --import tsx --test **/*.test.ts",
         "api": "tsx api/app.ts"
     },
