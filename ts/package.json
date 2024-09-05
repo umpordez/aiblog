@@ -20,5 +20,12 @@
         "tsx": "^4.19.0",
         "typescript": "^5.5.4",
         "typescript-eslint": "^8.4.0"
+    },
+    "dependencies": {
+        "@distube/ytdl-core": "^4.14.4",
+        "@wcj/markdown-to-html": "^3.0.2",
+        "dotenv": "^16.4.5",
+        "groq-sdk": "^0.7.0",
+        "markdown-it": "^14.1.0"
     }
 }

@@ -5,3 +5,4 @@ node_modules
 build
 *.pid
 .tsbuildinfo
+*.m4a
