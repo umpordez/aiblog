@@ -15,4 +15,6 @@ const config: Knex.Config = {
     }
 };
 
+console.log(process.env.PSQL_DATABASE);
+
 export default config;
