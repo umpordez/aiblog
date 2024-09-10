@@ -23,5 +23,10 @@
         "declaration": true,
         "declarationMap": true,
         "sourceMap": true
+    },
+    "ts-node": {
+        "compilerOptions": {
+            "module": "CommonJS"
+        }
     }
 }
