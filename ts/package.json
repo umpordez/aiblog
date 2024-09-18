@@ -2,6 +2,9 @@
     "name": "aiblog",
     "version": "0.0.1",
     "scripts": {
+        "migrate:up": "tsx ./node_modules/.bin/knex --knexfile ./knexfile.ts \"migrate:up\"",
+        "migrate:down": "tsx ./node_modules/.bin/knex --knexfile ./knexfile.ts \"migrate:down\"",
+        "migrate:latest": "tsx ./node_modules/.bin/knex --knexfile ./knexfile.ts \"migrate:latest\"",
         "build": "tsc -p .",
         "lint": "DEBUG=typescript-eslint:*. eslint . --ignore-pattern \"build\" --ignore-pattern \"blog-ui/tailwind.config.js\"",
         "lint:fix": "eslint . --fix --ignore-pattern \"build/\" --ignore-pattern \"blog-ui/tailwind.config.js\"",
