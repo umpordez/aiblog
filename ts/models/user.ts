@@ -1,4 +1,7 @@
 import BaseModel from './base';
+import bcrypt from 'bcrypt';
+
+const SALT_ROUNDS = 10;
 
 export interface User {
     id: string;
@@ -13,10 +16,11 @@ class UserModel extends BaseModel {
         email: string,
         password: string
     }): Promise<User> {
+        const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
         const insertResponse = await this.knex('users').insert({
             name,
             email,
-            password
+            password: hashedPassword
         }).returning('*');
 
         return insertResponse[0];
