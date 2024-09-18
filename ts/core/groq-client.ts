@@ -24,9 +24,9 @@ class GroqClient {
 
     async transcribeAudio(
         filepath: string,
-        model: string = 'whisper-large-v3',
-        language: string = 'br',
-        temperature: number = 0.0
+        model = 'whisper-large-v3',
+        language = 'br',
+        temperature = 0.0
     ): string {
         const res = await this.groq.audio.transcriptions.create({
             file: fs.createReadStream(filepath),
@@ -39,11 +39,11 @@ class GroqClient {
     }
 
     async createCompletions(
-        messages: Array<Message>,
-        model: string = 'llama3-8b-8192',
-        temperature: number = 0.5,
-        maxTokens: number = 8000
-    ): Array<Choices> {
+        messages: Message[],
+        model = 'llama3-8b-8192',
+        temperature = 0.5,
+        maxTokens = 8000
+    ): Choices[] {
         const res = await this.groq.chat.completions.create({
             messages,
             model,

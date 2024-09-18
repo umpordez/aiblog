@@ -1,11 +1,21 @@
 import assert from 'node:assert';
-import test from 'node:test';
+import test, { before } from 'node:test';
 
 import '../test-helper';
 
 import GroqClient from '../../core/groq-client';
+import YouTubeClient from '../../core/youtube-client';
 
 if (process.env.GROQ_API_KEY) {
+    const { AUDIO_TEST_FILEPATH } = process.env;
+
+    before(async () => {
+        const client = new YouTubeClient();
+        const url = "http://www.youtube.com/watch?v=UAhB8-mdBgE";
+
+        await client.downloadAudio(url, AUDIO_TEST_FILEPATH);
+    });
+
     test('Groq client initialize / sanitize', () => {
         const client = new GroqClient(process.env.GROQ_API_KEY);
 
@@ -15,7 +25,7 @@ if (process.env.GROQ_API_KEY) {
 
     test('Transcribe audio', async () => {
         const client = new GroqClient(process.env.GROQ_API_KEY);
-        const res = await client.transcribeAudio('./audio-test.m4a');
+        const res = await client.transcribeAudio(AUDIO_TEST_FILEPATH);
 
         assert(res);
     });
