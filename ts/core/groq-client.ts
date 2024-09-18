@@ -1,21 +1,14 @@
 import fs from 'node:fs';
 import Groq from 'groq-sdk';
 
-interface Message {
-    role: string;
-    content: string;
-}
-
-interface Choices {
-    index: number;
-    message: Message;
-    logprobs?: boolean;
-    finish_reason: string
-}
+import type {
+    ChatCompletionMessageParam,
+    ChatCompletion
+} from 'groq-sdk/resources/chat/completions';
 
 class GroqClient {
     grokApiKey: string;
-    client: Groq;
+    groq: Groq;
 
     constructor(grokApiKey: string) {
         this.grokApiKey = grokApiKey;
@@ -27,7 +20,7 @@ class GroqClient {
         model = 'whisper-large-v3',
         language = 'br',
         temperature = 0.0
-    ): string {
+    ): Promise<string> {
         const res = await this.groq.audio.transcriptions.create({
             file: fs.createReadStream(filepath),
             model,
@@ -39,11 +32,11 @@ class GroqClient {
     }
 
     async createCompletions(
-        messages: Message[],
+        messages: ChatCompletionMessageParam[],
         model = 'llama3-8b-8192',
         temperature = 0.5,
         maxTokens = 8000
-    ): Choices[] {
+    ): Promise<ChatCompletion.Choice[]> {
         const res = await this.groq.chat.completions.create({
             messages,
             model,

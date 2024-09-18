@@ -1,9 +1,14 @@
 import type { Knex } from "knex";
 
+import { fileURLToPath } from 'url';
+
 import dotenv from "dotenv";
 import path from 'node:path';
 
-dotenv.config({ path: path.resolve('./.env') });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 const config: Knex.Config = {
     client: 'pg',
@@ -14,7 +19,5 @@ const config: Knex.Config = {
         password: process.env.PSQL_PASSWORD
     }
 };
-
-console.log(process.env.PSQL_DATABASE);
 
 export default config;
