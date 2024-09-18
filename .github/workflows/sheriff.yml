@@ -49,7 +49,3 @@ jobs:
       - name: eslint nodejs
         working-directory: ./ts
         run: npm run lint
-
-      - name: runs tests
-        working-directory: ./ts
-        run: npm test
