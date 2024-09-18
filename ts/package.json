@@ -3,8 +3,8 @@
     "version": "0.0.1",
     "scripts": {
         "build": "tsc -p .",
-        "lint": "DEBUG=typescript-eslint:*. eslint . --ignore-pattern \"build\"",
-        "lint:fix": "eslint . --fix --ignore-pattern \"build/\"",
+        "lint": "DEBUG=typescript-eslint:*. eslint . --ignore-pattern \"build\" --ignore-pattern \"blog-ui/tailwind.config.js\"",
+        "lint:fix": "eslint . --fix --ignore-pattern \"build/\" --ignore-pattern \"blog-ui/tailwind.config.js\"",
         "test": "node --import tsx --test $(find tests/ -name \"*.test.ts\")",
         "api": "tsx api/app.ts",
         "tailwind-dev": "./node_modules/tailwindcss/lib/cli.js -i ./blog-ui/public/src/tailwind.css -o ./blog-ui/public/dist/tailwind.css --watch --config ./blog-ui/tailwind.config.js",
