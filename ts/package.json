@@ -6,7 +6,7 @@
         "build": "tsc -p .",
         "lint": "DEBUG=typescript-eslint:*. eslint . --ignore-pattern \"build\"",
         "lint:fix": "eslint . --fix --ignore-pattern \"build/\"",
-        "test": "node --import tsx --test **/*.test.ts",
+        "test": "node --import tsx --test $(find tests/ -name \"*.test.ts\")",
         "api": "tsx api/app.ts"
     },
     "author": "umpordez",
