@@ -1,23 +1,29 @@
 {
     "name": "aiblog",
     "version": "0.0.1",
-    "main": "index.js",
     "scripts": {
         "build": "tsc -p .",
         "lint": "DEBUG=typescript-eslint:*. eslint . --ignore-pattern \"build\"",
         "lint:fix": "eslint . --fix --ignore-pattern \"build/\"",
         "test": "node --import tsx --test $(find tests/ -name \"*.test.ts\")",
-        "api": "tsx api/app.ts"
+        "api": "tsx api/app.ts",
+        "tailwind-dev": "./node_modules/tailwindcss/lib/cli.js -i ./blog-ui/public/src/tailwind.css -o ./blog-ui/public/dist/tailwind.css --watch --config ./blog-ui/tailwind.config.js",
+        "tailwind-build": "./node_modules/tailwindcss/lib/cli.js -i ./blog-ui/public/src/tailwind.css -o ./http/blog-ui/dist/tailwind.css --minify --config ./blog-ui/tailwind.config.js"
     },
     "author": "umpordez",
-    "license": "unlicensed",
-    "description": "",
+    "license": "UNLICENSED",
+    "description": "aiblog created on my youtube channel (@ligeiro)",
     "devDependencies": {
         "@eslint/js": "^9.9.1",
+        "@tailwindcss/line-clamp": "^0.4.4",
+        "@tailwindcss/typography": "^0.5.15",
         "@types/bcrypt": "^5.0.2",
         "@types/eslint__js": "^8.42.3",
         "@types/node": "^22.5.1",
         "eslint": "^9.9.1",
+        "prettier": "^3.3.3",
+        "prettier-plugin-tailwindcss": "^0.6.6",
+        "tailwindcss": "^3.4.12",
         "ts-node": "^10.9.2",
         "tsx": "^4.19.0",
         "typescript": "^5.5.4",
