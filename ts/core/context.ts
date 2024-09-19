@@ -7,18 +7,11 @@ class Context {
     user: User;
     avatar: Avatar;
 
-    userId?: string;
-    accountId?: string;
-
-    constructor(accountId?: string, userId?: string) {
-        this.accountId = accountId;
-        this.userId = userId;
-
+    constructor() {
         this.account = new Account(this);
         this.user = new User(this);
         this.avatar = new Avatar(this);
     }
-
 }
 
 export default Context;
