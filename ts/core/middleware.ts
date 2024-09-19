@@ -46,7 +46,7 @@ export function requestLogger (
 
 export async function resolveBlogLinkMiddleware(
     req: AiBlogRequest,
-    res: Response,
+    _res: Response,
     next: NextFunction
 ) {
     try {
@@ -72,8 +72,8 @@ export async function resolveBlogLinkMiddleware(
 }
 
 export async function demandAdminBlogAccessMiddleware(
-    req: Request,
-    res: Response,
+    _req: Request,
+    _res: Response,
     next: NextFunction
 ) {
     try {

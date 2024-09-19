@@ -62,7 +62,7 @@ function getPage(url: string) : PageConfig {
 
 type Handler = (req: AiBlogRequest, res: Response) => Promise<void>;
 
-app.use((req: AiBlogRequest, res: Response, next: NextFunction) => {
+app.use((req: AiBlogRequest, _res: Response, next: NextFunction) => {
     const context = new Context();
     req.ctx = context;
 
@@ -93,42 +93,42 @@ function buildHandler(fn: Handler) {
 }
 
 
-app.get('/', buildHandler(async (req: AiBlogRequest, res: Response) => {
+app.get('/', buildHandler(async (_req: AiBlogRequest, res: Response) => {
     res.render('home');
 }));
 
 app.get(
     '/blog/:blogLink',
     resolveBlogLinkMiddleware,
-    buildHandler(async (req: AiBlogRequest, res: Response) => {
+    buildHandler(async (_req: AiBlogRequest, res: Response) => {
         res.render('blog/home-account');
     }));
 
 app.get(
     '/blog/:blogLink/create-post',
     resolveBlogLinkMiddleware,
-    buildHandler(async (req: AiBlogRequest, res: Response) => {
+    buildHandler(async (_req: AiBlogRequest, res: Response) => {
         res.render('blog-admin/create-post');
     }));
 
 app.get(
     '/blog/:blogLink/post/:postLink',
     resolveBlogLinkMiddleware,
-    buildHandler(async (req: AiBlogRequest, res: Response) => {
+    buildHandler(async (_req: AiBlogRequest, res: Response) => {
         res.render('blog/post-view');
     }));
 
-app.get('/login', buildHandler(async (req: AiBlogRequest, res: Response) => {
+app.get('/login', buildHandler(async (_req: AiBlogRequest, res: Response) => {
     res.render('auth/login');
 }));
 
 app.get(
     '/create-account',
-    buildHandler(async (req: AiBlogRequest, res: Response) => {
+    buildHandler(async (_req: AiBlogRequest, res: Response) => {
         res.render('auth/create-account');
     }));
 
-app.use(buildHandler(async (req: AiBlogRequest, res: Response) => {
+app.use(buildHandler(async (_req: AiBlogRequest, res: Response) => {
     res.render('404');
 }));
 
