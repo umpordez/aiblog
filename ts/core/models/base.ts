@@ -1,7 +1,7 @@
 import type { Knex } from "knex";
 
-import Context from '../core/context';
-import knex from '../core/knex';
+import Context from '../context';
+import knex from '../knex';
 
 class BaseModel {
     context: Context;

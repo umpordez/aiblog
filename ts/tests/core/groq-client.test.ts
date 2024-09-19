@@ -3,8 +3,8 @@ import test, { before } from 'node:test';
 
 import '../test-helper';
 
-import GroqClient from '../../core/groq-client';
-import YouTubeClient from '../../core/youtube-client';
+import GroqClient from '../../core/external-clients/groq';
+import YouTubeClient from '../../core/external-clients/youtube';
 
 const GROQ_API_KEY = process.env.GROQ_API_KEY || '';
 const AUDIO_TEST_FILEPATH = process.env.AUDIO_TEST_FILEPATH || '';

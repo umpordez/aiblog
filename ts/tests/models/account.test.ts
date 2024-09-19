@@ -4,7 +4,7 @@ import test, { afterEach } from 'node:test';
 
 import '../test-helper';
 
-import Account from '../../models/account';
+import Account from '../../core/models/account';
 import Context from '../../core/context';
 
 import knex from '../../core/knex';

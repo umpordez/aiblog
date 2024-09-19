@@ -1,6 +1,6 @@
-import Account from '../models/account';
-import User from '../models/user';
-import Avatar from '../models/avatar';
+import Account from './models/account';
+import User from './models/user';
+import Avatar from './models/avatar';
 
 class Context {
     account: Account;
