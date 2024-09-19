@@ -20,7 +20,6 @@ class AvatarModel extends BaseModel {
 
         return insertResponse[0];
     }
-
 }
 
 export default AvatarModel;

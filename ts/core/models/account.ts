@@ -26,6 +26,16 @@ class AccountModel extends BaseModel {
             role
         });
     }
+
+    async getByLink(link: string): Promise<Account> {
+        const acc = await this.knex('accounts').where({ link }).first();
+
+        if (!acc) { 
+            throw new Error('Account not found.');
+        }
+
+        return acc;
+    }
 }
 
 export default AccountModel;

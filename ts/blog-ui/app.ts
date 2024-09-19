@@ -2,11 +2,18 @@ import path from 'node:path';
 
 import dotenv from "dotenv";
 import express from 'express';
-import type { Request, Response } from 'express';
+import type { NextFunction, Response } from 'express';
 import { __filename } from "__filename";
 
 import logger from '../core/logger';
-import { requestLogger } from '../core/middleware';
+import {
+    requestLogger,
+    resolveBlogLinkMiddleware,
+    demandAdminBlogAccessMiddleware
+} from '../core/middleware';
+import type { AiBlogRequest } from '../core/middleware';
+
+import Context from '../core/context';
 
 const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, '.env') });
@@ -26,7 +33,6 @@ process.on('uncaughtException', fatalHandler);
 process.on('unhandledRejection', fatalHandler);
 
 app.use(requestLogger);
-
 
 interface PageConfig {
     title: string;
@@ -56,10 +62,17 @@ function getPage(url: string) : PageConfig {
     return cfg;
 }
 
-type Handler = (req: Request, res: Response) => Promise<void>;
+type Handler = (req: AiBlogRequest, res: Response) => Promise<void>;
+
+app.use((req: AiBlogRequest, res: Response, next: NextFunction) => {
+    const context = new Context();
+    req.ctx = context;
+
+    next();
+});
 
 function buildHandler(fn: Handler) {
-    return async (req: Request, res: Response) => {
+    return async (req: AiBlogRequest, res: Response) => {
         try {
             const _render = res.render.bind(res);
 
@@ -75,46 +88,50 @@ function buildHandler(fn: Handler) {
 
             await fn(req, res);
         } catch (ex) {
-            // MAY go to error page?
             console.error(ex);
             res.render('404', { page: getPage(req.url) });
         }
     };
 }
 
-app.get('/', buildHandler(async (req: Request, res: Response) => {
+
+app.get('/', buildHandler(async (req: AiBlogRequest, res: Response) => {
     res.render('home');
 }));
 
 app.get(
-    '/blog/:link',
-    buildHandler(async (req: Request, res: Response) => {
+    '/blog/:blogLink',
+    resolveBlogLinkMiddleware,
+    buildHandler(async (req: AiBlogRequest, res: Response) => {
         res.render('blog/home-account');
     }));
 
 app.get(
-    '/blog/:link/create-post',
-    buildHandler(async (req: Request, res: Response) => {
+    '/blog/:blogLink/create-post',
+    resolveBlogLinkMiddleware,
+    demandAdminBlogAccessMiddleware,
+    buildHandler(async (req: AiBlogRequest, res: Response) => {
         res.render('blog-admin/create-post');
     }));
 
 app.get(
-    '/blog/:link/post/:postLink',
-    buildHandler(async (req: Request, res: Response) => {
+    '/blog/:blogLink/post/:postLink',
+    resolveBlogLinkMiddleware,
+    buildHandler(async (req: AiBlogRequest, res: Response) => {
         res.render('blog/post-view');
     }));
 
-app.get('/login', buildHandler(async (req: Request, res: Response) => {
+app.get('/login', buildHandler(async (req: AiBlogRequest, res: Response) => {
     res.render('auth/login');
 }));
 
 app.get(
     '/create-account',
-    buildHandler(async (req: Request, res: Response) => {
+    buildHandler(async (req: AiBlogRequest, res: Response) => {
         res.render('auth/create-account');
     }));
 
-app.use(buildHandler(async (req: Request, res: Response) => {
+app.use(buildHandler(async (req: AiBlogRequest, res: Response) => {
     res.render('404');
 }));
 
