@@ -9,6 +9,7 @@
         "migrate:down": "tsx ./node_modules/.bin/knex --knexfile ./knexfile.ts \"migrate:down\"",
         "migrate:latest": "tsx ./node_modules/.bin/knex --knexfile ./knexfile.ts \"migrate:latest\"",
         "build": "tsc -p .",
+        "build-blog-ui": "tsc -p blog-ui/public/src/ts",
         "lint": "DEBUG=typescript-eslint:*. eslint . --ignore-pattern \"build\" --ignore-pattern \"blog-ui/tailwind.config.js\"",
         "lint:fix": "eslint . --fix --ignore-pattern \"build/\" --ignore-pattern \"blog-ui/tailwind.config.js\"",
         "test": "node --import tsx --test $(find tests/ -name \"*.test.ts\")",
