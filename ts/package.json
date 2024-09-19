@@ -1,6 +1,7 @@
 {
     "name": "aiblog",
     "version": "0.0.1",
+    "type": "module",
     "scripts": {
         "blog-ui": "npm run blog-ui-node & npm run tailwind-dev",
         "blog-ui-node": "tsx blog-ui/app.ts",

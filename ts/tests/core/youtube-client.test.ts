@@ -2,9 +2,9 @@ import fs from 'node:fs';
 import assert from 'node:assert';
 import test from 'node:test';
 
-import '../test-helper';
+import '../test-helper.js';
 
-import YouTubeClient from '../../core/external-clients/youtube';
+import YouTubeClient from '../../core/external-clients/youtube.js';
 
 const AUDIO_TEST_FILEPATH = process.env.AUDIO_TEST_FILEPATH || '';
 

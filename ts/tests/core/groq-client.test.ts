@@ -1,10 +1,10 @@
 import assert from 'node:assert';
 import test, { before } from 'node:test';
 
-import '../test-helper';
+import '../test-helper.js';
 
-import GroqClient from '../../core/external-clients/groq';
-import YouTubeClient from '../../core/external-clients/youtube';
+import GroqClient from '../../core/external-clients/groq.js';
+import YouTubeClient from '../../core/external-clients/youtube.js';
 
 const GROQ_API_KEY = process.env.GROQ_API_KEY || '';
 const AUDIO_TEST_FILEPATH = process.env.AUDIO_TEST_FILEPATH || '';

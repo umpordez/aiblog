@@ -6,12 +6,9 @@ import fs from 'fs'
 import dotenv from "dotenv";
 
 import path from 'node:path';
-import { fileURLToPath } from 'url';
+import dirname from '../dirname.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
+dotenv.config({ path: path.resolve(dirname, '../.env') });
 
 const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 

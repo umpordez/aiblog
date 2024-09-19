@@ -2,10 +2,9 @@ import type { Knex } from "knex";
 
 import dotenv from "dotenv";
 import path from 'node:path';
-import { __filename } from "__filename";
+import dirname from "./dirname.js";
 
-const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.resolve(__dirname, '.env') });
+dotenv.config({ path: path.resolve(dirname, '.env') });
 
 const config: Knex.Config = {
     client: 'pg',

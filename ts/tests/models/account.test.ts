@@ -2,12 +2,12 @@
 import assert from 'node:assert';
 import test, { afterEach } from 'node:test';
 
-import '../test-helper';
+import '../test-helper.js';
 
-import Account from '../../core/models/account';
-import Context from '../../core/context';
+import Account from '../../core/models/account.js';
+import Context from '../../core/context.js';
 
-import knex from '../../core/knex';
+import knex from '../../core/knex.js';
 
 const userIds : string[] = [];
 const accountIds : string[] = [];

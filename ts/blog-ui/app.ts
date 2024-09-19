@@ -3,25 +3,24 @@ import path from 'node:path';
 import dotenv from "dotenv";
 import express from 'express';
 import type { NextFunction, Response } from 'express';
-import { __filename } from "__filename";
+import dirname from "../dirname.js";
 
-import logger from '../core/logger';
+import logger from '../core/logger.js';
 import {
     requestLogger,
     resolveBlogLinkMiddleware
-} from '../core/middleware';
-import type { AiBlogRequest } from '../core/middleware';
+} from '../core/middleware.js';
+import type { AiBlogRequest } from '../core/middleware.js';
 
-import Context from '../core/context';
+import Context from '../core/context.js';
 
-const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.resolve(__dirname, '.env') });
+dotenv.config({ path: path.resolve(dirname, '.env') });
 
 const app = express();
 
-app.use(express.static(path.resolve(__dirname, './blog-ui/public')));
+app.use(express.static(path.resolve(dirname, './blog-ui/public')));
 app.set('view engine', 'ejs');
-app.set('views', path.resolve(__dirname, './blog-ui/views/'));
+app.set('views', path.resolve(dirname, './blog-ui/views/'));
 
 function fatalHandler(err: Error) {
     logger.error(err, { FATAL: true });

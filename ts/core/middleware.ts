@@ -3,10 +3,10 @@ import type {
     Response,
     NextFunction
 } from 'express';
-import logger from './logger';
+import logger from './logger.js';
 
-import type { Account } from './models/account';
-import type Context from './context';
+import type { Account } from './models/account.js';
+import type Context from './context.js';
 
 export interface AiBlogRequest extends Request {
     ctx?: Context;

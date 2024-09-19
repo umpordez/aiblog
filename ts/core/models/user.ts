@@ -1,5 +1,5 @@
-import BaseModel from './base';
 import bcrypt from 'bcrypt';
+import BaseModel from './base.js';
 
 const SALT_ROUNDS = 10;
 
