@@ -29,14 +29,14 @@ afterEach(async () => {
     }
 });
 
-test('[Account] initialize / sanitize', () => {
+test('[ModelAccount] initialize / sanitize', () => {
     const ctx = new Context();
     const client = new Account(ctx);
 
     assert(client);
 });
 
-test('[Account] can create account', async () => {
+test('[ModelAccount] can create account', async () => {
     const ctx = new Context();
     const client = new Account(ctx);
 
@@ -53,7 +53,7 @@ test('[Account] can create account', async () => {
     accountIds.push(account.id);
 });
 
-test('[Account] can create account, create user and associate', async () => {
+test('[ModelAccount] can create account, create user and associate', async () => {
     const ctx = new Context();
 
     const user = await ctx.user.create({

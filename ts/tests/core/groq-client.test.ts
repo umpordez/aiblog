@@ -6,9 +6,10 @@ import '../test-helper';
 import GroqClient from '../../core/groq-client';
 import YouTubeClient from '../../core/youtube-client';
 
-if (process.env.GROQ_API_KEY) {
-    const { AUDIO_TEST_FILEPATH } = process.env;
+const GROQ_API_KEY = process.env.GROQ_API_KEY || '';
+const AUDIO_TEST_FILEPATH = process.env.AUDIO_TEST_FILEPATH || '';
 
+if (GROQ_API_KEY && AUDIO_TEST_FILEPATH) {
     before(async () => {
         const client = new YouTubeClient();
         const url = "http://www.youtube.com/watch?v=UAhB8-mdBgE";
@@ -16,22 +17,22 @@ if (process.env.GROQ_API_KEY) {
         await client.downloadAudio(url, AUDIO_TEST_FILEPATH);
     });
 
-    test('Groq client initialize / sanitize', () => {
-        const client = new GroqClient(process.env.GROQ_API_KEY);
+    test('[GroqClient] Groq client initialize / sanitize', () => {
+        const client = new GroqClient(GROQ_API_KEY);
 
         assert(client);
         assert(client.groq);
     });
 
-    test('Transcribe audio', async () => {
-        const client = new GroqClient(process.env.GROQ_API_KEY);
+    test('[GroqClient] Transcribe audio', async () => {
+        const client = new GroqClient(GROQ_API_KEY);
         const res = await client.transcribeAudio(AUDIO_TEST_FILEPATH);
 
         assert(res);
     });
 
-    test('Create completions', async () => {
-        const client = new GroqClient(process.env.GROQ_API_KEY);
+    test('[GroqClient] Create completions', async () => {
+        const client = new GroqClient(GROQ_API_KEY);
         const res = await client.createCompletions([
             {
                 content: 'Ola, estou gravando um video, de um OI',

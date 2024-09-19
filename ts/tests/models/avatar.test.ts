@@ -21,14 +21,14 @@ afterEach(async () => {
     }
 });
 
-test('[Avatar] initialize / sanitize', () => {
+test('[ModelAvatar] initialize / sanitize', () => {
     const ctx = new Context();
     const client = new Avatar(ctx);
 
     assert(client);
 });
 
-test('[Avatar] can create avatar', async () => {
+test('[ModelAvatar] can create avatar', async () => {
     const ctx = new Context();
     const client = new Avatar(ctx);
 

@@ -18,14 +18,14 @@ afterEach(async () => {
     }
 });
 
-test('[User] initialize / sanitize', () => {
+test('[ModelUser] initialize / sanitize', () => {
     const ctx = new Context();
     const client = new User(ctx);
 
     assert(client);
 });
 
-test('[User] can create user', async () => {
+test('[ModelUser] can create user', async () => {
     const ctx = new Context();
     const client = new User(ctx);
 
