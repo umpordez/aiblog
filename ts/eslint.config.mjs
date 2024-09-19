@@ -10,7 +10,10 @@ export default tseslint.config(
     {
         ignores: [ 'build/**/*' ],
         languageOptions: {
-            globals: { ...globals.node }
+            globals: {
+                ...globals.node,
+                ...globals.browser
+            }
         }
     }
 );
