@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-    <%- include('partials/head.ejs') %>
+    <%- include('../partials/head.ejs') %>
     <body>
-        <%- include('partials/header.ejs') %>
+        <%- include('../partials/header.ejs') %>
         <aside aria-label="Related articles" class="py-5 bg-gray-50">
             <div class="px-4 mx-auto max-w-screen-xl">
                 <h2 class="mb-8 text-2xl font-bold text-gray-900">
@@ -18,7 +18,9 @@
                             <a href="#">Our first office</a>
                         </h2>
                         <p class="mb-4 text-gray-500">Over the past year, Volosoft has undergone many changes! After months of preparation.</p>
-                        <a href="#" class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 hover:no-underline">
+                        <a
+                            href="/blog/foo/post/<%= i %>"
+                            class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 hover:no-underline">
                             Read Blog Post
                         </a>
                     </article>
@@ -27,6 +29,6 @@
             </div>
         </aside>
         
-        <%- include('partials/footer.ejs') %>
+        <%- include('../partials/footer.ejs') %>
     </body>
 </html>
