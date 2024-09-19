@@ -8,8 +8,7 @@ import { __filename } from "__filename";
 import logger from '../core/logger';
 import {
     requestLogger,
-    resolveBlogLinkMiddleware,
-    demandAdminBlogAccessMiddleware
+    resolveBlogLinkMiddleware
 } from '../core/middleware';
 import type { AiBlogRequest } from '../core/middleware';
 
@@ -109,7 +108,6 @@ app.get(
 app.get(
     '/blog/:blogLink/create-post',
     resolveBlogLinkMiddleware,
-    demandAdminBlogAccessMiddleware,
     buildHandler(async (req: AiBlogRequest, res: Response) => {
         res.render('blog-admin/create-post');
     }));
