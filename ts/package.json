@@ -10,8 +10,8 @@
         "lint:fix": "eslint . --fix --ignore-pattern \"build/\" --ignore-pattern \"blog-ui/tailwind.config.js\"",
         "test": "node --import tsx --test $(find tests/ -name \"*.test.ts\")",
         "api": "tsx api/app.ts",
-        "tailwind-dev": "./node_modules/tailwindcss/lib/cli.js -i ./blog-ui/public/src/tailwind.css -o ./blog-ui/public/dist/tailwind.css --watch --config ./blog-ui/tailwind.config.js",
-        "tailwind-build": "./node_modules/tailwindcss/lib/cli.js -i ./blog-ui/public/src/tailwind.css -o ./http/blog-ui/dist/tailwind.css --minify --config ./blog-ui/tailwind.config.js"
+        "tailwind-dev": "tailwindcss -i ./blog-ui/public/src/tailwind.css -o ./blog-ui/public/dist/tailwind.css --watch --config ./blog-ui/tailwind.config.js",
+        "tailwind-build": "tailwindcss -i ./blog-ui/public/src/tailwind.css -o ./http/blog-ui/dist/tailwind.css --minify --config ./blog-ui/tailwind.config.js"
     },
     "author": "umpordez",
     "license": "UNLICENSED",
