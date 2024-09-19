@@ -10,23 +10,6 @@ The videos are:
 
 ---
 
-## To RUN
-
-First you need PostgreSQL and create a database, then:
-
-
-```shell
-cd ts
-npm install
-
-cp .env.sample .env
-vi .env
-
-npm run migrate:latest
-```
-
----
-
 This is unlicensed, you can do whatever you want!
 
 > Have fun! :D
