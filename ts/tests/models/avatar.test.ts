@@ -4,7 +4,7 @@ import test, { afterEach } from 'node:test';
 
 import '../test-helper';
 
-import Avatar from '../../models/avatar';
+import Avatar from '../../core/models/avatar';
 import Context from '../../core/context';
 
 import knex from '../../core/knex';
