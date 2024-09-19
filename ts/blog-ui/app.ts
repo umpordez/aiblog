@@ -86,6 +86,34 @@ app.get('/', buildHandler(async (req: Request, res: Response) => {
     res.render('home');
 }));
 
+app.get(
+    '/blog/:link',
+    buildHandler(async (req: Request, res: Response) => {
+        res.render('home-account');
+    }));
+
+app.get(
+    '/blog/:link/create-post',
+    buildHandler(async (req: Request, res: Response) => {
+        res.render('create-post');
+    }));
+
+app.get(
+    '/blog/:link/post/:postLink',
+    buildHandler(async (req: Request, res: Response) => {
+        res.render('post-view');
+    }));
+
+app.get('/login', buildHandler(async (req: Request, res: Response) => {
+    res.render('login');
+}));
+
+app.get(
+    '/create-account',
+    buildHandler(async (req: Request, res: Response) => {
+        res.render('create-account');
+    }));
+
 app.use(buildHandler(async (req: Request, res: Response) => {
     res.render('404');
 }));

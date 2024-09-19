@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <%- include('partials/head.ejs') %>
-    <body class="overflow-x-hidden">
-        <div
-            class="flex min-h-screen flex-col bg-white bg-gradient-to-r from-[#FCF1F4] to-[#EDFBF9] font-mulish text-base font-normal text-gray antialiased dark:bg-[#101926] dark:from-transparent dark:to-transparent"
-        >
+    <body>
+        <div class="grid grid-rows-[auto_1fr_auto] min-h-screen">
             <%- include('partials/header.ejs') %>
+           <main class="bg-gray-50">
+                <div class="text-center py-4 px-4 mx-auto max-w-[400px]">
+                    <p class="mb-3">Helloooo World =)</p>
 
+                    <a href="/create-account" class="width-200 block my-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Criar Conta
+                    </a>
+                    <a href="/login" class="w-200 block my-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Login
+                    </a>
+                </div>
+            </main>
             <%- include('partials/footer.ejs') %>
         </div>
     </body>

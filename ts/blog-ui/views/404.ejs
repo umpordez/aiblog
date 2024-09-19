@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <%- include('partials/head.ejs') %>
-    <body class="overflow-x-hidden">
-        <div
-            class="flex min-h-screen flex-col bg-white bg-gradient-to-r from-[#FCF1F4] to-[#EDFBF9] font-mulish text-base font-normal text-gray antialiased dark:bg-[#101926] dark:from-transparent dark:to-transparent"
-        >
+    <body>
+        <div class="grid grid-rows-[auto_1fr_auto] min-h-screen">
             <%- include('partials/header.ejs') %>
-            <p>Not found</p>
+            <main class="bg-gray-50">
+                <div class="text-center py-4 px-4 mx-auto max-w-screen-xl">
+                    <p class="mb-3">404 - Not found :(</p>
+
+                    <a href="/" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        GO HOME :)
+                    </a>
+                </div>
+            </main>
             <%- include('partials/footer.ejs') %>
         </div>
     </body>
