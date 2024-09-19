@@ -3,6 +3,7 @@
     "version": "0.0.1",
     "type": "module",
     "scripts": {
+        "dev": "./dev.sh",
         "blog-ui-node": "tsx blog-ui/app.ts",
         "blog-ui-ts": "tsc -b blog-ui/public/src/ts --watch",
         "blog-ui-tailwind": "tailwindcss -i ./blog-ui/public/src/tailwind.css -o ./blog-ui/public/dist/tailwind.css --watch --config ./blog-ui/tailwind.config.js",
