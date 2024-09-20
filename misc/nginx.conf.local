@@ -1,15 +1,13 @@
 http {
     server {
         listen 443 ssl;
-
         server_name api.blogai.local;
 
         ssl_certificate aiblog/misc/ssl/blogai.local.pem;
         ssl_certificate_key aiblog/misc/ssl/blogai.local.key;
 
-
         location / {
-            proxy_pass http://127.0.0.1:4021$proxy_uri;
+            proxy_pass http://127.0.0.1:4021;
 
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection 'upgrade';
@@ -18,14 +16,14 @@ http {
 
     server {
         listen 443 ssl;
-
         server_name .blogai.local;
-        root aiblog/ts/blog-ui/public;
 
         ssl_certificate aiblog/misc/ssl/blogai.local.pem;
         ssl_certificate_key aiblog/misc/ssl/blogai.local.key;
 
-        if ($host ~ ^blogai\.local) {
+        root aiblog/ts/blog-ui/public;
+
+        f ($host ~ ^blogai\.local) {
             set $proxy_uri $request_uri;
         }
 
