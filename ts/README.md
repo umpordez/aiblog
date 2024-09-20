@@ -1,10 +1,15 @@
-AIBlog TypeScript CODE =)
+AIBlog TypeScriptLand.
 ===
 
-## To RUN
+Hey yooo
+This is the TypeScript code of our blog :)
 
-First you need PostgreSQL and create a database, then:
+To run you will need:
+- PostgreSQL
+- Node.js
+- An account on [groq](https://groq.com/)
 
+With these tools, first you need to create a database and then:
 
 ```shell
 npm install
@@ -13,4 +18,16 @@ cp .env.sample .env
 vi .env
 
 npm run migrate:latest
+```
+
+To run in dev mode:
+
+```shell
+npm run dev
+```
+
+To build for production:
+
+```shell
+npm run build
 ```
