@@ -1,6 +1,7 @@
 import { z } from '/lib/zod3.23.8.js';
 import { validateZodSchema } from '../utils.js';
 import ajaxAdapter from '../ajax-adapter.js';
+import loading from '../loading.js';
 
 interface User {
     name: string;
@@ -76,11 +77,14 @@ $form?.addEventListener('submit', async (ev) => {
     isSaving = true;
 
     try {
+        loading.show();
         await ajaxAdapter.post('/create-account', values);
 
         alert('Conta criada com sucesso!');
         window.location.href = '/login';
     } catch (ex) {
+        loading.hide();
+
         console.error(ex);
         isSaving = false;
         alert(ex);

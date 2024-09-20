@@ -18,6 +18,22 @@ export interface UserCreate {
 
 
 class UserModel extends BaseModel {
+    async login(email: string, password: string) : Promise<User> {
+        const user = await this.knex('users').where({ email }).first();
+
+        if (!user) {
+            throw new Error(`User not found for email: ${email}`);
+        }
+
+        const isSamePass = await bcrypt.compare(password, user.password);
+
+        if (!isSamePass) {
+            throw new Error('Invalid password');
+        }
+
+        return user;
+    }
+
     async create({ name, email, password } : {
         name: string,
         email: string,

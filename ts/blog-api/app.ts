@@ -4,6 +4,7 @@ import type { NextFunction, Response } from 'express';
 import logger from '../core/logger.js';
 import { requestLogger } from '../core/middleware.js';
 import type { AiBlogRequest } from '../core/middleware.js';
+import jwt from 'jsonwebtoken';
 
 import Context from '../core/context.js';
 
@@ -87,6 +88,25 @@ app.post(
             avatarId: blogResponse.avatar.id,
             ok: true
         });
+}));
+
+app.post(
+    '/login',
+    buildHandler(async (req: ApiRequest, res: Response) => {
+        const { email, password } = req.body;
+
+        const loginResponse = await req.ctx?.user.login(email, password);
+
+        if (!loginResponse) {
+            throw new Error('Invalid login data');
+        }
+
+        const tokenData = {
+            userId: loginResponse.id,
+            utc_last_logon: new Date()
+        };
+        const token = jwt.sign(tokenData, process.env.HTTP_SECRET);
+        res.status(200).json({ userId: loginResponse.id, token })
 }));
 
 app.listen(process.env.BLOG_API_PORT, () => {
