@@ -4,7 +4,7 @@ import type { NextFunction, Response } from 'express';
 import logger from '../core/logger.js';
 import { requestLogger } from '../core/middleware.js';
 import type { AiBlogRequest } from '../core/middleware.js';
-import jwt from 'jsonwebtoken';
+import makeAuthEndpoint from './endpoints/auth.js';
 
 import Context from '../core/context.js';
 
@@ -68,46 +68,7 @@ app.get('/', buildHandler(async (_req: ApiRequest, res: Response) => {
     res.status(200).json({ ok: true, message: 'Hello World' });
 }));
 
-app.post(
-    '/create-account',
-    buildHandler(async (req: ApiRequest, res: Response) => {
-        const { account, user, avatar } = req.body;
-
-        avatar.name = avatar.avatar_name;
-        avatar.system_prompt = avatar.avatar_description;
-
-        const blogResponse = await req.ctx?.blog.create(user, account, avatar);
-
-        if (!blogResponse) {
-            throw new Error('Invalid blog create response!');
-        }
-
-        res.status(200).json({
-            accountId: blogResponse.account.id,
-            userId: blogResponse.user.id,
-            avatarId: blogResponse.avatar.id,
-            ok: true
-        });
-}));
-
-app.post(
-    '/login',
-    buildHandler(async (req: ApiRequest, res: Response) => {
-        const { email, password } = req.body;
-
-        const loginResponse = await req.ctx?.user.login(email, password);
-
-        if (!loginResponse) {
-            throw new Error('Invalid login data');
-        }
-
-        const tokenData = {
-            userId: loginResponse.id,
-            utc_last_logon: new Date()
-        };
-        const token = jwt.sign(tokenData, process.env.HTTP_SECRET);
-        res.status(200).json({ userId: loginResponse.id, token })
-}));
+makeAuthEndpoint(app, buildHandler);
 
 app.listen(process.env.BLOG_API_PORT, () => {
     logger.info(`http server opened on ${process.env.BLOG_API_PORT}`);
