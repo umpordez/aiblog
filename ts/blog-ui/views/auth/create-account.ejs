@@ -1,15 +1,156 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-    <%- include('../partials/head.ejs') %>
+<%- include('../partials/head.ejs') %>
     <body>
         <div class="grid grid-rows-[auto_1fr_auto] min-h-screen">
             <%- include('../partials/header.ejs') %>
-           <main class="bg-gray-50">
-                <div class="text-center py-4 px-4 mx-auto max-w-[400px]">
+                <main class="bg-gray-50">
+                    <div class="py-4 px-4 mx-auto max-w-[400px]">
+                        <h1 class="text-xl font-bold leading-tight tracking-tight">
+                            Join the AI Blog Side
+                        </h1>
+                        <p class="mb-5 text-sm">It's easy.</p>
+                        <form class="space-y-2 md:space-y-4" action="#">
+                           <div>
+                                <label
+                                    for="name"
+                                    class="block mb-2 text-sm font-medium">Olá, ____ __ _____ _____!</label>
 
-                </div>
-            </main>
-            <%- include('../partials/footer.ejs') %>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    id="name"
+                                    class="bg-white bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                                    placeholder="Joao da Silva Sauro"
+                                    required="">
+                            </div>
+
+                            <div>
+                                <label
+                                    for="email"
+                                    class="block mb-2 text-sm font-medium">E-mail</label>
+
+                                <input
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    class="bg-white bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                                    placeholder="silvasauro@umpordez.com"
+                                    required="">
+                            </div>
+
+                            <div>
+                                <label
+                                    for="password"
+                                    class="block mb-2 text-sm font-medium">Password</label>
+
+                                <input
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    placeholder="••••••••"
+                                    class="bg-white bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                                    required="">
+                            </div>
+
+                            <hr />
+
+                            <div>
+                                <h2 class="font-bold leading-tight tracking-tight">
+                                    Blog Info
+                                </h2>
+                                <p class="text-sm">Info sobre o seu blog, jovem padawan.</p>
+                            </div>
+                            <div>
+                                <label
+                                    for="title"
+                                    class="block mb-2 text-sm font-medium">Title</label>
+
+                                <input
+                                    type="text"
+                                    name="title"
+                                    id="title"
+                                    class="bg-white bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                                    placeholder="UM POR DEZ :D"
+                                    required="">
+                            </div>
+
+                            <div>
+                                <label
+                                    for="link"
+                                    class="block mb-2 text-sm font-medium">________.blogai.local</label>
+
+                                <input
+                                    type="text"
+                                    name="link"
+                                    id="link"
+                                    class="bg-white bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                                    placeholder="umpordez"
+                                    required="">
+                            </div>
+
+                            <div>
+                                <label
+                                    for="groq_api_key"
+                                    class="block mb-2 text-sm font-medium">GROQ API Key</label>
+
+                                <input
+                                    type="password"
+                                    name="groq_api_key"
+                                    id="groq_api_key"
+                                    class="bg-white bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                                    placeholder="sq_XXXX"
+                                    required="">
+                            </div>
+                           <hr />
+
+                            <div>
+                                <h2 class="font-bold leading-tight tracking-tight">
+                                    Avatar
+                                </h2>
+                                <p class="text-sm">Be whatever you want</p>
+                            </div>
+
+                            <div>
+                                <label
+                                    for="avatar_name"
+                                    class="block mb-2 text-sm font-medium">Name</label>
+
+                                <input
+                                    type="password"
+                                    name="avatar_name"
+                                    id="avatar_name"
+                                    class="bg-white bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                                    placeholder="sq_XXXX"
+                                    required="">
+                            </div>
+                            <div>
+                                <label
+                                    for="avatar_description"
+                                    class="block mb-2 text-sm font-medium">System Prompt</label>
+
+                                <textarea
+                                    name="avatar_description"
+                                    id="avatar_description"
+                                    class="bg-white bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                                    placeholder="Um sabio escritor de blog que manja tudo sobre ciencia da computation"
+                                    required=""></textarea>
+                            </div>
+
+                            <button 
+                                type="submit"
+                                class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                            >Create this thing</button>
+
+                            <p class="text-sm font-light">
+                                Já tem conta? :) <a href="/login"
+                                    class="font-medium text-blue-600 hover:underline">Hello there</a>
+                            </p>
+                        </form>
+                    </div>
+                </main>
+                <%- include('../partials/footer.ejs') %>
         </div>
     </body>
+
 </html>
