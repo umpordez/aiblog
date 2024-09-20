@@ -58,6 +58,9 @@ test('[ModelBlog] can create :D', async () => {
     assert(account.title === 'Foo');
     assert(account.link === 'bar');
 
+    assert(avatar);
+    assert(user);
+
     accountIds.push(account.id);
     userIds.push(user.id);
 });

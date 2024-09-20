@@ -19,6 +19,7 @@ class Context {
         this.blog = new Blog(this);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
     async knexTransaction(fn: Function) {
         try {
             await knex.transaction(async (trx) => {
@@ -30,8 +31,6 @@ class Context {
 
                 await fn();
             });
-        } catch (ex) {
-            throw ex;
         } finally {
             for (const key in this) {
                 if (this[key] instanceof BaseModel) {

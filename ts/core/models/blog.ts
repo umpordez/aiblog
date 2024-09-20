@@ -14,6 +14,7 @@ class BlogModel extends BaseModel {
         user: User,
         avatar: Avatar
     }> {
+        // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve, reject) => {
             try {
                 await this.context.knexTransaction(async() => {

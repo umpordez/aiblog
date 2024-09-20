@@ -15,8 +15,8 @@
         "migrate:up": "tsx ./node_modules/.bin/knex --knexfile ./knexfile.ts \"migrate:up\"",
         "migrate:down": "tsx ./node_modules/.bin/knex --knexfile ./knexfile.ts \"migrate:down\"",
         "migrate:latest": "tsx ./node_modules/.bin/knex --knexfile ./knexfile.ts \"migrate:latest\"",
-        "lint": "DEBUG=typescript-eslint:*. eslint . --ignore-pattern \"build\" --ignore-pattern \"blog-ui/tailwind.config.js\"",
-        "lint:fix": "eslint . --fix --ignore-pattern \"build/\" --ignore-pattern \"blog-ui/tailwind.config.js\"",
+        "lint": "DEBUG=typescript-eslint:*. eslint . --ignore-pattern 'build' --ignore-pattern 'blog-ui/tailwind.config.js' --ignore-pattern 'blog-ui/public/lib' --ignore-pattern 'blog-ui/public/dist'",
+        "lint:fix": "DEBUG=typescript-eslint:*. eslint . --fix --ignore-pattern 'build' --ignore-pattern 'blog-ui/tailwind.config.js' --ignore-pattern 'blog-ui/public/lib' --ignore-pattern 'blog-ui/public/dist'",
         "test": "node --import tsx --test $(find tests/ -name \"*.test.ts\")"
     },
     "author": "umpordez",

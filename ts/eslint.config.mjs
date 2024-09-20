@@ -8,7 +8,11 @@ export default tseslint.config(
     ...tseslint.configs.strict,
     ...tseslint.configs.stylistic,
     {
-        ignores: [ 'build/**/*' ],
+        ignores: [
+            'build/**/*',
+            'blog-ui/public/dist/**/*',
+            'blog-ui/public/lib/**/*'
+        ],
         languageOptions: {
             globals: {
                 ...globals.node,
