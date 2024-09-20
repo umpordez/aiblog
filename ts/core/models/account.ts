@@ -4,6 +4,14 @@ export interface Account {
     id: string;
     title: string;
     link: string;
+    groq_api_key?: string;
+    utc_created_on: Date
+}
+
+export interface AccountCreate {
+    title: string;
+    link: string;
+    groq_api_key?: string;
 }
 
 class AccountModel extends BaseModel {

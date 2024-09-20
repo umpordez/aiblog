@@ -4,10 +4,9 @@ import config from './config.js';
 async function doRequest(
     url: string,
     method: string,
-    body: any,
-    headers: any = {}
+    body?: any
 ) {
-    headers = headers || {
+    const headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
     };
@@ -65,12 +64,12 @@ async function doRequest(
 
 const ajaxAdapter = {
     request: doRequest ,
-    post(url: string, body: any, headers: any) {
-        return doRequest(url, 'POST', body, headers);
+    post(url: string, body?: any) {
+        return doRequest(url, 'POST', body);
     },
 
-    get(url: string, body: any, headers: any) {
-        return doRequest(url, 'GET', body, headers);
+    get(url: string, body?: any) {
+        return doRequest(url, 'GET', body);
     }
 };
 

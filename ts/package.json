@@ -6,6 +6,7 @@
         "dev": "./dev.sh",
         "build": "./build.sh",
         "blog-ui-node": "tsx blog-ui/app.ts",
+        "blog-api-node": "tsx blog-api/app.ts",
         "blog-ui-ts": "tsc -b blog-ui/public/src/ts --watch",
         "blog-ui-tailwind": "tailwindcss -i ./blog-ui/public/src/tailwind.css -o ./blog-ui/public/dist/tailwind.css --watch --config ./blog-ui/tailwind.config.js",
         "blog-ui-build-tailwind": "tailwindcss -i ./blog-ui/public/src/tailwind.css -o ./blog-ui/public/dist/tailwind.css --minify --config ./blog-ui/tailwind.config.js",
@@ -50,6 +51,7 @@
         "knex": "^3.1.0",
         "lodash": "^4.17.21",
         "markdown-it": "^14.1.0",
-        "pg": "^8.12.0"
+        "pg": "^8.12.0",
+        "zod": "^3.23.8"
     }
 }

@@ -22,7 +22,7 @@
                                     id="name"
                                     class="bg-white bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                                     placeholder="Joao da Silva Sauro"
-                                    required="">
+                                    required>
                             </div>
 
                             <div>
@@ -36,7 +36,7 @@
                                     id="email"
                                     class="bg-white bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                                     placeholder="silvasauro@umpordez.com"
-                                    required="">
+                                    required>
                             </div>
 
                             <div>
@@ -50,7 +50,7 @@
                                     id="password"
                                     placeholder="••••••••"
                                     class="bg-white bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                                    required="">
+                                    required>
                             </div>
 
                             <hr />
@@ -72,7 +72,7 @@
                                     id="title"
                                     class="bg-white bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                                     placeholder="UM POR DEZ :D"
-                                    required="">
+                                    required>
                             </div>
 
                             <div>
@@ -86,7 +86,7 @@
                                     id="link"
                                     class="bg-white bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                                     placeholder="umpordez"
-                                    required="">
+                                    required>
                             </div>
 
                             <div>
@@ -99,8 +99,8 @@
                                     name="groq_api_key"
                                     id="groq_api_key"
                                     class="bg-white bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                                    placeholder="sq_XXXX"
-                                    required="">
+                                    placeholder="gsk_XXXX"
+                                    required>
                             </div>
                            <hr />
 
@@ -117,12 +117,12 @@
                                     class="block mb-2 text-sm font-medium">Name</label>
 
                                 <input
-                                    type="password"
+                                    type="text"
                                     name="avatar_name"
                                     id="avatar_name"
                                     class="bg-white bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                                    placeholder="sq_XXXX"
-                                    required="">
+                                    placeholder="Ligeiro"
+                                    required>
                             </div>
                             <div>
                                 <label
@@ -134,7 +134,7 @@
                                     id="avatar_description"
                                     class="bg-white bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                                     placeholder="Um sabio escritor de blog que manja tudo sobre ciencia da computation"
-                                    required=""></textarea>
+                                    required></textarea>
                             </div>
 
                             <button 
@@ -151,6 +151,7 @@
                 </main>
                 <%- include('../partials/footer.ejs') %>
         </div>
+        <script type='module' src="/dist/auth/create-account.js"></script>
     </body>
 
 </html>

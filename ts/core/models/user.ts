@@ -10,12 +10,21 @@ export interface User {
     utc_created_on: Date;
 }
 
+export interface UserCreate {
+    email: string;
+    name: string;
+    password?: string;
+}
+
+
 class UserModel extends BaseModel {
     async create({ name, email, password } : {
         name: string,
         email: string,
-        password: string
+        password?: string
     }): Promise<User> {
+        if (!password) { throw new Error('Password was not passed'); }
+
         const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
         const insertResponse = await this.knex('users').insert({
             name,
