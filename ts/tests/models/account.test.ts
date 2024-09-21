@@ -80,3 +80,29 @@ test('[ModelAccount] can create account, create user and associate', async () =>
     assert(userInAccount);
     assert(userInAccount.role === 'admin');
 });
+
+test('[ModelAccount] getAllByUserId', async () => {
+    const ctx = new Context();
+
+    const user = await ctx.user.create({
+        name: 'Foo',
+        email: 'foo',
+        password: 'bar'
+    });
+
+    userIds.push(user.id);
+
+    const account = await ctx.account.create({
+        title: 'Foo',
+        link: 'zaz'
+    });
+
+    accountIds.push(account.id);
+    await ctx.account.addUser(account.id, user.id, 'admin');
+
+    const accounts = await ctx.account.getAllByUser(user.id);
+
+    assert(accounts);
+    assert(accounts.length === 1);
+    assert(accounts[0].id === account.id);
+});

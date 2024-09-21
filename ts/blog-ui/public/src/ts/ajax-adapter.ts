@@ -8,8 +8,14 @@ async function doRequest(
 ) {
     const headers = {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': ''
     };
+
+    const token = localStorage.getItem('token');
+    if (token) {
+        headers.Authorization = token;
+    }
 
     const errorStack = new Error();
 

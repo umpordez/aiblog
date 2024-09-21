@@ -78,7 +78,7 @@ $form?.addEventListener('submit', async (ev) => {
 
     try {
         loading.show();
-        await ajaxAdapter.post('/create-account', values);
+        await ajaxAdapter.post('/auth/create-account', values);
 
         alert('Conta criada com sucesso!');
         window.location.href = '/login';

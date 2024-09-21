@@ -44,6 +44,18 @@ class AccountModel extends BaseModel {
 
         return acc;
     }
+
+    async getAllByUser(userId: string) : Promise<Account[]> {
+        const accounts = await this
+            .knex('accounts as a')
+            .join('user_in_accounts as ua', {
+                'ua.account_id': 'a.id'
+            })
+            .where({ user_id: userId })
+            .select('a.*');
+
+        return accounts;
+    }
 }
 
 export default AccountModel;

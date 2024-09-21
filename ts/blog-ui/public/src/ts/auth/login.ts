@@ -25,19 +25,15 @@ function getFormValues() : Login {
     return { email, password };
 }
 
-let isInRequest = false;
 $form?.addEventListener('submit', async (ev) => {
     ev.preventDefault();
     const values = getFormValues();
 
     validateZodSchema(Login, values, $form);
-    if (isInRequest) { return; }
-
-    isInRequest = true;
 
     try {
         loading.show();
-        const { token } = await ajaxAdapter.post('/login', values);
+        const { token } = await ajaxAdapter.post('/auth/login', values);
         // best approach or NAAH?
         localStorage.setItem('token', token);
 
@@ -45,7 +41,6 @@ $form?.addEventListener('submit', async (ev) => {
     } catch (ex) {
         loading.hide();
         console.error(ex);
-        isInRequest = false;
         alert(ex);
     }
 });

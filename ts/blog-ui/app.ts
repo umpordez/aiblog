@@ -123,6 +123,12 @@ app.get('/login', buildHandler(async (_req: AiBlogRequest, res: Response) => {
 }));
 
 app.get(
+    '/my-account',
+    buildHandler(async (_req: AiBlogRequest, res: Response) => {
+        res.render('my-account');
+    }));
+
+app.get(
     '/create-account',
     buildHandler(async (_req: AiBlogRequest, res: Response) => {
         res.render('auth/create-account');

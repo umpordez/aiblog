@@ -42,6 +42,29 @@ test('[ModelUser] can create user', async () => {
     userIds.push(user.id);
 });
 
+test('[ModelUser] get by id', async () => {
+    const ctx = new Context();
+    const client = new User(ctx);
+
+    const user = await client.create({
+        name: 'Foo',
+        email: 'foo',
+        password: 'bar'
+    });
+
+    assert(user);
+    assert(user.id);
+    assert(user.name === 'Foo');
+    assert(user.email === 'foo');
+
+    userIds.push(user.id);
+
+    const dbUser = await client.getById(user.id);
+
+    assert(dbUser);
+    assert(dbUser.id === user.id);
+});
+
 test('[ModelUser] can create login', async () => {
     const ctx = new Context();
     const client = new User(ctx);

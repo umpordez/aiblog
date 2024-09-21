@@ -6,11 +6,14 @@ import type {
 import logger from './logger.js';
 
 import type { Account } from './models/account.js';
+import type { User } from './models/user.js';
 import type Context from './context.js';
+import jwt from 'jsonwebtoken';
 
 export interface AiBlogRequest extends Request {
     ctx?: Context;
     account?: Account;
+    user?: User;
 }
 
 export function requestLogger (
@@ -77,6 +80,45 @@ export async function demandAdminBlogAccessMiddleware(
     next: NextFunction
 ) {
     try {
+        next();
+    } catch (ex: unknown) {
+        let error = new Error();
+
+        if (ex instanceof Error) {
+            error = ex;
+        } else if (typeof ex === 'string') {
+            error = new Error(ex);
+        } else {
+            error.message = `Unexpected Throw: ${typeof ex}`;
+        }
+
+        logger.error(error);
+        next(error);
+    }
+}
+
+interface JwtPayload {
+    userId: string
+}
+
+export async function trySetUserMiddleware (
+    req: AiBlogRequest,
+    _res: Response,
+    next: NextFunction
+) {
+    try {
+        const token = req.headers.authorization || '';
+        if (!token) {
+            return next();
+        }
+
+        jwt.verify(token, process.env.HTTP_SECRET as string);
+        const decoded = jwt.decode(token) as JwtPayload;
+        const userId = decoded.userId;
+
+        const user = await req.ctx?.user.getById(userId);
+        req.user = user;
+
         next();
     } catch (ex: unknown) {
         let error = new Error();

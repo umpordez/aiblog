@@ -50,6 +50,12 @@ class UserModel extends BaseModel {
 
         return insertResponse[0];
     }
+
+    async getById(userId: string) : Promise<User> {
+        const user = await this.knex('users').where({ id: userId }).first();
+
+        return user;
+    }
 }
 
 export default UserModel;
