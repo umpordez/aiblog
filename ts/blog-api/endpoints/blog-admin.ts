@@ -23,6 +23,27 @@ router.post(
         const avatarInput = await req.ctx.avatar
             .createInput(req.account.id, youtubeUrl);
 
+        /*
+        await req.ctx
+            .redis
+            .sendNotification('avatar-input:created', avatarInput)
+        
+        // blog audio will listen
+        req.ctx.redis.on('avatar-input:created', () => {
+
+        })
+
+        // blog-ai --transcriber
+        req.ctx.redis.on('avatar-input:downloaded', () => {
+
+        })
+
+        // blog-ai --creator
+        req.ctx.redis.on('avatar-input:transcribed', () => {
+
+        })
+        */
+
         res.status(200).json({
             ok: true,
             avatarInputId: avatarInput.id
