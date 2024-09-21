@@ -2,6 +2,7 @@ import Account from './models/account.js';
 import User from './models/user.js';
 import Avatar from './models/avatar.js';
 import Blog from './models/blog.js';
+import Redis from './models/redis.js';
 
 import knex from './knex';
 import BaseModel from './models/base.js';
@@ -11,12 +12,14 @@ class Context {
     user: User;
     avatar: Avatar;
     blog: Blog;
+    redis: Redis;
 
     constructor() {
         this.account = new Account(this);
         this.user = new User(this);
         this.avatar = new Avatar(this);
         this.blog = new Blog(this);
+        this.redis = new Redis(this);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
