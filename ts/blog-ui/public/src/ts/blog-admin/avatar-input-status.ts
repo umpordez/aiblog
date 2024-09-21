@@ -10,6 +10,13 @@ interface AvatarInputStatus {
     isTranscriptionDone: boolean;
 }
 
+const $button = document.querySelector('button') as HTMLButtonElement;
+const $status = document.querySelector('#statusWrapper') as HTMLDivElement;
+
+if (!$button || !$status) { throw new Error("UH OH! :/"); }
+
+$button.disabled = true;
+
 function renderStatus(status: AvatarInputStatus) : void {
     const lines : string[] = [];
 
@@ -40,13 +47,9 @@ function renderStatus(status: AvatarInputStatus) : void {
     }
 
     const html = `<ul class="list-disc px-5">${lines.join('')}</ul>`;
-
-    const el = document.querySelector('#statusWrapper') as HTMLDivElement;
-    el.innerHTML = html;
+    $status.innerHTML = html;
 
     if (status.isDone) {
-        const $button = document.querySelector('button') as HTMLButtonElement;
-
         $button.disabled = false;
         $button.classList.remove('opacity-20');
     }
@@ -71,3 +74,10 @@ async function pollStatus() : Promise<void> {
 }
 
 await pollStatus();
+
+$button.addEventListener('click', (ev) => {
+    ev.preventDefault();
+    if ($button.disabled) { return; }
+
+    window.location.href = `${config.baseUrl}/avatar-input/${avatarInputId}`;
+});
