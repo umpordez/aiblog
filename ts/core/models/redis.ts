@@ -20,14 +20,14 @@ class RedisModel extends BaseModel {
         return redisClient;
     }
 
-    async _getSubscriber(): Promise<RedisClientType> {
+    async #getSubscriber(): Promise<RedisClientType> {
         if (_subscriber) { return _subscriber; }
 
         _subscriber = await this.initializeClient();
         return _subscriber;
     }
 
-    async _getPublisher(): Promise<RedisClientType> {
+    async #getPublisher(): Promise<RedisClientType> {
         if (_publisher) { return _publisher; }
 
         _publisher = await this.initializeClient();
@@ -35,12 +35,12 @@ class RedisModel extends BaseModel {
     }
 
     async publish(event: string, params: string) : Promise<void> {
-        const client = await this._getPublisher();
+        const client = await this.#getPublisher();
         await client.publish(event, params)
     }
 
     async subscribe(event: string, handler: Handler) : Promise<void> {
-        const client = await this._getSubscriber();
+        const client = await this.#getSubscriber();
         await client.subscribe(event, handler);
     }
 
