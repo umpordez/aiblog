@@ -43,6 +43,11 @@ class RedisModel extends BaseModel {
         const client = await this._getSubscriber();
         await client.subscribe(event, handler);
     }
+
+    async quit() {
+        if (_publisher) { await _publisher.quit(); }
+        if (_subscriber) { await _subscriber.quit(); }
+    }
 }
 
 export default RedisModel;
