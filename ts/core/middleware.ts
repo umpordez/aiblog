@@ -75,11 +75,16 @@ export async function resolveBlogLinkMiddleware(
 }
 
 export async function demandAdminBlogAccessMiddleware(
-    _req: Request,
+    req: AiBlogRequest,
     _res: Response,
     next: NextFunction
 ) {
     try {
+        if (!req.account || !req.user || !req.ctx) {
+            throw new Error('Forbidden!!! :x');
+        }
+
+        await req.ctx.account.demandUserAccess(req.account.id, req.user.id);
         next();
     } catch (ex: unknown) {
         let error = new Error();

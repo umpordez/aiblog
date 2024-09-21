@@ -56,6 +56,17 @@ class AccountModel extends BaseModel {
 
         return accounts;
     }
+
+    async demandUserAccess(accountId: string, userId: string) : Promise<void> {
+        const userInAccount = await this.knex('user_in_accounts').where({
+            account_id: accountId,
+            user_id: userId
+        }).first();
+
+        if (!userInAccount) {
+            throw new Error(`User: ${userId} has no access to: ${accountId}`);
+        }
+    }
 }
 
 export default AccountModel;

@@ -38,6 +38,7 @@ const Avatar = z.object({
 });
 
 const $form = document.querySelector('form');
+if (!$form) { throw new Error('uh ohhhh!'); }
 
 function getFormValues() : {
     avatar: Avatar,
@@ -64,7 +65,7 @@ function getFormValues() : {
 }
 
 let isSaving = false;
-$form?.addEventListener('submit', async (ev) => {
+$form.addEventListener('submit', async (ev) => {
     ev.preventDefault();
     const values = getFormValues();
 

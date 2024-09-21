@@ -79,8 +79,10 @@ function buildHandler(fn: Handler) {
 
                 return _render(tpl, {
                     ...cfg,
-                    ...getPage(req.url),
-                    ...(options || {})
+                    ...(options || {}),
+                    baseUrl: req.account ? `/blog/${req.account.link}` : '/',
+                    accountLink: req.account?.link || '',
+                    baseApiUrl: process.env.BASE_API_URL as string
                 });
             };
 
@@ -91,7 +93,6 @@ function buildHandler(fn: Handler) {
         }
     };
 }
-
 
 app.get('/', buildHandler(async (_req: AiBlogRequest, res: Response) => {
     res.render('home');

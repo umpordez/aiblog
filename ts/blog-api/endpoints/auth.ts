@@ -3,8 +3,8 @@ import type { Response, Express } from 'express';
 import jwt from 'jsonwebtoken';
 import express from 'express';
 
-import type { ApiRequest  } from '../utils';
-import { buildHandler } from '../utils';
+import type { ApiRequest  } from '../utils.js';
+import { buildHandler } from '../utils.js';
 
 const router = express.Router();
 

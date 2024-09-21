@@ -7,9 +7,11 @@ import Context from '../core/context.js';
 
 import type { ApiRequest } from './utils.js';
 import {
-    buildHandler } from './utils.js';
+    buildHandler
+} from './utils.js';
 
 import makeAuthEndpoint from './endpoints/auth.js';
+import makeBlogAdminEndpoint from './endpoints/blog-admin.js';
 
 const app = express();
 
@@ -61,6 +63,7 @@ app.get(
     }));
 
 makeAuthEndpoint(app);
+makeBlogAdminEndpoint(app);
 
 app.listen(process.env.BLOG_API_PORT, () => {
     logger.info(`http server opened on ${process.env.BLOG_API_PORT}`);

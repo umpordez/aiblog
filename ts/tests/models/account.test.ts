@@ -106,3 +106,36 @@ test('[ModelAccount] getAllByUserId', async () => {
     assert(accounts.length === 1);
     assert(accounts[0].id === account.id);
 });
+
+test('[ModelAccount] demandUserAccess', async () => {
+    const ctx = new Context();
+
+    const user = await ctx.user.create({
+        name: 'Foo',
+        email: 'foo',
+        password: 'bar'
+    });
+
+    userIds.push(user.id);
+
+    const account = await ctx.account.create({
+        title: 'Foo',
+        link: 'zaz'
+    });
+
+    accountIds.push(account.id);
+
+    try {
+        await ctx.account.demandUserAccess(account.id, user.id);
+        throw new Error('Unexpected');
+    } catch (ex) {
+        if (ex instanceof Error) {
+            assert(/has no access to/.test(ex.message));
+        } else {
+            throw ex;
+        }
+    }
+
+    await ctx.account.addUser(account.id, user.id, 'admin');
+    await ctx.account.demandUserAccess(account.id, user.id);
+});
