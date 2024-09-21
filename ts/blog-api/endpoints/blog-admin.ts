@@ -24,7 +24,6 @@ router.post(
             .createInput(req.account.id, youtubeUrl);
 
         await req.ctx.redis.publish('avatar-input-created', avatarInput.id);
-        console.log("SEEEND")
 
         res.status(200).json({
             ok: true,
