@@ -29,7 +29,7 @@ router.post(
         });
     }));
 
-router.post(
+router.get(
     '/avatar-input-status/:avatarInputStatusId',
     buildHandler(async (req: ApiRequest, res: Response) => {
         if (!req.ctx || !req.account) {

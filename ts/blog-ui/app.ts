@@ -119,6 +119,15 @@ app.get(
         res.render('blog/post-view');
     }));
 
+app.get(
+    '/blog/:blogLink/avatar-input-status/:avatarInputId',
+    resolveBlogLinkMiddleware,
+    buildHandler(async (req: AiBlogRequest, res: Response) => {
+        res.render('blog-admin/avatar-input-status', {
+            avatarInputId: req.params.avatarInputId
+        });
+    }));
+
 app.get('/login', buildHandler(async (_req: AiBlogRequest, res: Response) => {
     res.render('auth/login');
 }));

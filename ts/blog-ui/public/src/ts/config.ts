@@ -3,6 +3,7 @@ declare global {
         baseUrl?: string;
         accountLink?: string;
         baseApiUrl?: string;
+        avatarInputId?: string;
     }
 }
 
