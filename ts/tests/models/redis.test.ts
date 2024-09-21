@@ -24,6 +24,7 @@ test('[ModelRedis] pub / sub', async () => {
     const ctx = new Context();
     const client = new Redis(ctx);
 
+    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
         const timer = setTimeout(() => {
             reject('Unexpected');
