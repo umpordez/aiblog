@@ -13,10 +13,34 @@ import {
 const router = express.Router();
 
 router.post(
-    '/create-post',
+    '/init-post',
     buildHandler(async (req: ApiRequest, res: Response) => {
-        console.log(req.body);
-}));
+        if (!req.ctx || !req.account) {
+            throw new Error('UH Oh! Something veeeery odd is happening...')
+        }
+
+        const youtubeUrl = req.body.youtube_url as string;
+        const avatarInput = await req.ctx.avatar
+            .createInput(req.account.id, youtubeUrl);
+
+        res.status(200).json({
+            ok: true,
+            avatarInputId: avatarInput.id
+        });
+    }));
+
+router.post(
+    '/avatar-input-status/:avatarInputStatusId',
+    buildHandler(async (req: ApiRequest, res: Response) => {
+        if (!req.ctx || !req.account) {
+            throw new Error('UH Oh! Something veeeery odd is happening...')
+        }
+
+        const avatarInputStatus = await req.ctx.avatar
+            .getInputStatus(req.account.id, req.params.avatarInputStatusId);
+
+        res.status(200).json({ ok: true, ...avatarInputStatus });
+    }));
 
 export default function makeEndpoint (app: Express) {
     app.use(

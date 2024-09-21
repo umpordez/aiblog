@@ -37,12 +37,13 @@ $step1Form.addEventListener('submit', async (ev) => {
     loading.show();
 
     try {
-        const res = await ajaxAdapter
+        const { avatarInputId } = await ajaxAdapter
             .post(`/blog-admin/${config.accountLink}/init-post`, {
                 ...values
             });
 
-        console.log(res);
+        window.location.href = `${config.baseUrl}` +
+            `/avatar-input-status/${avatarInputId}`;
     } catch (ex) {
         console.error(ex);
 

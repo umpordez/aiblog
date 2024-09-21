@@ -112,7 +112,7 @@ test('[ModelAccount] demandUserAccess', async () => {
 
     const user = await ctx.user.create({
         name: 'Foo',
-        email: 'foo',
+        email: 'foo_test',
         password: 'bar'
     });
 
@@ -120,7 +120,7 @@ test('[ModelAccount] demandUserAccess', async () => {
 
     const account = await ctx.account.create({
         title: 'Foo',
-        link: 'zaz'
+        link: 'zaz_test'
     });
 
     accountIds.push(account.id);

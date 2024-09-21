@@ -21,7 +21,7 @@ export async function up(knex: Knex): Promise<void> {
                 constraint fk_avatar_inputs_avatars
                 references avatars(id),
 
-            youtube_link text not null,
+            youtube_url text not null,
             status avatar_input_status not null
                 constraint df_avatar_inputs_status
                 default('waiting'),

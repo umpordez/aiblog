@@ -5,8 +5,9 @@ Hey yooo
 This is the TypeScript code of our blog :)
 
 To run you will need:
-- PostgreSQL
-- Node.js
+- [PostgreSQL](https://www.postgresql.org/)
+- [Node.js](https://nodejs.org/)
+- [redis](https://redis.io/)
 - An account on [groq](https://groq.com/)
 
 With these tools, first you need to create a database and then:
