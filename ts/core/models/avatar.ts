@@ -18,10 +18,10 @@ interface AvatarInput {
     youtube_url: string;
     status: 'waiting' |
         'downloading' |
-        'downloaded' | 
+        'downloaded' |
         'transcribing' |
-        'transcribed' | 
-        'creating' | 
+        'transcribed' |
+        'creating' |
         'done'
 
     avatar?: Avatar;
@@ -46,6 +46,52 @@ class AvatarModel extends BaseModel {
         }).returning('*');
 
         return insertResponse[0];
+    }
+
+    async updateAvatarInputTranscriptionAndStatus(
+        avatarInputId: string,
+        transcription: string
+    ) : Promise<void> {
+        await this.knex('avatar_inputs').update({
+            transcription,
+            status: 'transcribed'
+        }).where({ id: avatarInputId });
+    }
+
+    async updateAvatarInputFullTextAndStatus(
+        avatarInputId: string,
+        final_text: string
+    ) : Promise<void> {
+        await this.knex('avatar_inputs').update({
+            final_text,
+            status: 'done'
+        }).where({ id: avatarInputId });
+    }
+
+    async updateAvatarInputFilepathAndStatus(
+        avatarInputId: string,
+        filepath: string
+    ) : Promise<void> {
+        await this.knex('avatar_inputs').update({
+            filepath,
+            status: 'downloaded'
+        }).where({ id: avatarInputId });
+    }
+
+    async getInputById(
+        avatarInputId: string
+    ): Promise<AvatarInput> {
+        const avatarInput = await this.knex('avatar_inputs').where({
+            id: avatarInputId
+        }).first();
+
+        const avatar = await this.knex('avatars').where({
+            id: avatarInput.avatar_id
+        }).first();
+
+        avatarInput.avatar = avatar;
+
+        return avatarInput;
     }
 
     async getInput(
@@ -89,7 +135,7 @@ class AvatarModel extends BaseModel {
             isAudioDone: ![ 'waiting', 'downloading' ]
                 .includes(avatarInput.status),
 
-            isTranscriptionDone: [ 
+            isTranscriptionDone: [
                 'transcribed',
                 'creating',
                 'done'

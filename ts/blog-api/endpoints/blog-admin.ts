@@ -25,7 +25,7 @@ router.post(
 
         req.ctx
             .redis
-            .publishNoWait('avatar-input-created', avatarInput.id);
+            .publishNoWait('avatar-input:created', avatarInput.id);
 
         res.status(200).json({
             ok: true,
