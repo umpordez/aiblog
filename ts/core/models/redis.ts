@@ -34,6 +34,13 @@ class RedisModel extends BaseModel {
         return _publisher;
     }
 
+    publishNoWait(event: string, params: string) : void {
+        this.#getPublisher()
+            .then((client) => {
+                return client.publish(event, params)
+            }).catch((ex) => { logger.error(ex); })
+    }
+
     async publish(event: string, params: string) : Promise<void> {
         const client = await this.#getPublisher();
         await client.publish(event, params)

@@ -4,6 +4,7 @@ declare global {
         accountLink?: string;
         baseApiUrl?: string;
         avatarInputId?: string;
+        postId?: string;
     }
 }
 

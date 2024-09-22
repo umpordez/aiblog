@@ -113,10 +113,10 @@ app.get(
     }));
 
 app.get(
-    '/blog/:blogLink/post/:postLink',
+    '/blog/:blogLink/post/:postId',
     resolveBlogLinkMiddleware,
-    buildHandler(async (_req: AiBlogRequest, res: Response) => {
-        res.render('blog/post-view');
+    buildHandler(async (req: AiBlogRequest, res: Response) => {
+        res.render('blog/post-view', { postId: req.params.postId });
     }));
 
 app.get(
@@ -124,6 +124,15 @@ app.get(
     resolveBlogLinkMiddleware,
     buildHandler(async (req: AiBlogRequest, res: Response) => {
         res.render('blog-admin/avatar-input-status', {
+            avatarInputId: req.params.avatarInputId
+        });
+    }));
+
+app.get(
+    '/blog/:blogLink/avatar-input/:avatarInputId',
+    resolveBlogLinkMiddleware,
+    buildHandler(async (req: AiBlogRequest, res: Response) => {
+        res.render('blog-admin/avatar-input', {
             avatarInputId: req.params.avatarInputId
         });
     }));

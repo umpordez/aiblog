@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <%- include('../partials/head.ejs') %>
+    <script type="text/javascript">
+        window.avatarInputId = '<%= avatarInputId %>';
+    </script>
+
+    <body>
+        <div class="grid grid-rows-[auto_1fr_auto] min-h-screen">
+            <%- include('../partials/header.ejs') %>
+            <main class="bg-gray-50">
+                <div class="py-4 px-4 mx-auto max-w-[800px] text-slate-600">
+                    <h2 class="text-2xl font-bold text-gray-900">
+                        Input Status
+                    </h2>
+                    <p class="text-sm">ID: <%= avatarInputId %></p>
+                    <p class="text-sm">Avatar: <span id='avatarName'></span></p>
+                    <hr class="my-4" />
+
+                    <form class="space-y-2 md:space-y-4 step-1" action="#">
+                        <div>
+                            <label
+                                for="title"
+                                class="block mb-2 text-sm font-medium">Title</label>
+
+                            <input
+                                type="title"
+                                name="title"
+                                id="title"
+                                class="bg-white bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                                placeholder="Hello World"
+                                required>
+                        </div>
+
+                        <div>
+                            <label
+                                for="description"
+                                class="block mb-2 text-sm font-medium">Description</label>
+
+                            <textarea
+                                rows="10"
+                                name="description"
+                                id="description"
+                                class="bg-white bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                                placeholder="Um sabio escritor de blog que manja tudo sobre ciencia da computation"
+                                required></textarea>
+                        </div>
+
+                        <button 
+                            type="submit"
+                            class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                        >Criar POST</button>
+                    </form>
+
+                </div>
+            </main>
+            <%- include('../partials/footer.ejs') %>
+        </div>
+        <script type='module' src="/dist/blog-admin/avatar-input.js"></script>
+        <%- include('../partials/loading-overlay.ejs', { show: true }) %>
+    </body>
+</html>

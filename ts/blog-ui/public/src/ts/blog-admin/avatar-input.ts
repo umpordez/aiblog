@@ -1,0 +1,106 @@
+import { z } from '/lib/zod3.23.8.js';
+
+import config from '../config.js';
+import ajaxAdapter from '../ajax-adapter.js';
+import loading from '../loading.js';
+
+import { validateZodSchema } from '../utils.js';
+
+const { avatarInputId } = window;
+
+const $form = document
+    .querySelector('form') as HTMLFormElement;
+const $avatarName = document
+    .querySelector('#avatarName') as HTMLSpanElement;
+
+if (!$form || !$avatarName) { throw new Error("UH OH! :/"); }
+
+interface Avatar {
+    id: string;
+    name: string;
+}
+
+interface AvatarInput {
+    id: string;
+    title: string;
+    final_text: string;
+    avatar: Avatar
+}
+
+interface BlogPost {
+    title: string;
+    description: string;
+    avatarId: string;
+}
+
+const BlogPost = z.object({
+    title: z.string().min(5),
+    description: z.string().min(5)
+});
+
+let avatarInput : AvatarInput;
+try {
+    avatarInput = await ajaxAdapter.get(
+        `/blog-admin/${config.accountLink}` +
+        `/avatar-input/${avatarInputId}`
+    );
+
+    loading.hide();
+} catch (ex) {
+    console.error(ex);
+
+    if (ex instanceof Error) {
+        alert(ex.message);
+    }
+
+    throw ex;
+}
+
+const fields = Array.from($form) as HTMLInputElement[] | HTMLTextAreaElement[];
+
+const $title = fields
+    .find((f) => f.name === 'title') as HTMLInputElement;
+
+const $description = fields
+    .find((f) => f.name === 'description') as HTMLTextAreaElement;
+
+$title.value = 'Hello World, please change me.';
+$description.innerHTML = avatarInput.final_text;
+
+$avatarName.innerHTML = avatarInput.avatar.name;
+
+function getBlogPostValues() : BlogPost {
+    const values = new FormData($form);
+
+    const title = values.get('title') as string;
+    const description = values.get('description') as string;
+
+    return { title, description, avatarId: avatarInput.avatar.id };
+}
+
+$form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+
+    const values = getBlogPostValues();
+    validateZodSchema(BlogPost, values, $form);
+
+    loading.show();
+
+    try {
+        const { blogPostId } = await ajaxAdapter
+            .post(`/blog-admin/${config.accountLink}/create-post`, {
+                ...values
+            });
+
+        window.location.href = `${config.baseUrl}` +
+            `/post/${blogPostId}`;
+    } catch (ex) {
+        console.error(ex);
+
+        if (ex instanceof Error) {
+            alert(ex.message);
+        }
+    } finally {
+        loading.hide();
+    }
+})

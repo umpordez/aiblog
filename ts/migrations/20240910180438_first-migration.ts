@@ -80,7 +80,11 @@ export async function up(knex: Knex): Promise<void> {
                 constraint fk_blog_posts_accounts
                 references accounts(id),
 
-            name text not null,
+            avatar_id uuid not null
+                constraint fk_blog_posts_avatars
+                references avatars(id),
+
+            title text not null,
             description text not null,
 
             utc_created_on timestamp not null

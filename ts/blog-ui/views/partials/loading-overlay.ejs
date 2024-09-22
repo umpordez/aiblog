@@ -1,6 +1,6 @@
 <div
     id='loadingOverlay'
-    class="hidden fixed top-0 left-0 absolute bg-white bg-opacity-60 z-10 h-full w-full flex items-center justify-center">
+    class="<%= typeof show === 'undefined' ? 'hidden' : '' %> fixed top-0 left-0 absolute bg-white bg-opacity-60 z-10 h-full w-full flex items-center justify-center">
     <div class="flex items-center">
         <svg class="animate-spin h-8 w-8 text-gray-800" xmlns="http://www.w3.org/2000/svg" fill="none"
             viewBox="0 0 24 24">

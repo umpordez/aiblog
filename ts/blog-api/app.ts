@@ -12,6 +12,7 @@ import {
 
 import makeAuthEndpoint from './endpoints/auth.js';
 import makeBlogAdminEndpoint from './endpoints/blog-admin.js';
+import makeBlogEndpoint from './endpoints/blog.js';
 
 const app = express();
 
@@ -64,6 +65,7 @@ app.get(
 
 makeAuthEndpoint(app);
 makeBlogAdminEndpoint(app);
+makeBlogEndpoint(app);
 
 app.listen(process.env.BLOG_API_PORT, () => {
     logger.info(`http server opened on ${process.env.BLOG_API_PORT}`);

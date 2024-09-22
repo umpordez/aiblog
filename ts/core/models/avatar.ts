@@ -23,6 +23,8 @@ interface AvatarInput {
         'transcribed' | 
         'creating' | 
         'done'
+
+    avatar?: Avatar;
 }
 
 interface AvatarInputStatus {
@@ -44,6 +46,25 @@ class AvatarModel extends BaseModel {
         }).returning('*');
 
         return insertResponse[0];
+    }
+
+    async getInput(
+        accountId: string,
+        avatarInputId: string
+    ): Promise<AvatarInput> {
+        // selects the first avatar of account, MUST change this to
+        // support multiple avatars
+        const avatar = await this.knex('avatars').where({
+            account_id: accountId
+        }).first();
+
+        const avatarInput = await this.knex('avatar_inputs').where({
+            avatar_id: avatar.id,
+            id: avatarInputId
+        }).first();
+
+        avatarInput.avatar = avatar;
+        return avatarInput;
     }
 
     async getInputStatus(
