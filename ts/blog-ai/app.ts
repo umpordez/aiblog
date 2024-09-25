@@ -1,8 +1,10 @@
+import fs from 'node:fs';
 import markdown from '@wcj/markdown-to-html';
 
 import Context from '../core/context.js';
 import logger from '../core/logger.js';
 import GroqClient from '../core/external-clients/groq.js';
+
 
 const context = new Context();
 const mode = process.argv[2];
@@ -24,6 +26,7 @@ async function transcribeAudio(avatarInputId: string) : Promise<void> {
         avatarInput.filepath
     );
 
+    await fs.promises.unlink(avatarInput.filepath);
     await context.avatar.updateAvatarInputTranscriptionAndStatus(
         avatarInput.id,
         audioTranscription
