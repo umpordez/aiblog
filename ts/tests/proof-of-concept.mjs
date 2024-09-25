@@ -6,8 +6,9 @@ import fs from 'fs'
 import dotenv from "dotenv";
 
 import path from 'node:path';
-import dirname from '../dirname.js';
+import { fileURLToPath } from "url";
 
+const dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(dirname, '../.env') });
 
 const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
@@ -57,6 +58,11 @@ escreva TODO o texto em português do Brasil, e CÓDIGOS em inglês.
 Dou uma gorjeta de US$ 500 se sua resposta for precisa e de alta qualidade
                     `
                 },
+                {
+                    role: 'system',
+                    content: 'Your output must be in markdown'
+                },
+
                 {
                     role: 'user',
                     content: `reference text:\n${res.text}`

@@ -6,3 +6,8 @@ input.invalid,
 textarea.invalid {
     border-color: red;
 }
+
+p { 
+    padding-top: 1rem;
+    padding-bottom: .2rem;
+}

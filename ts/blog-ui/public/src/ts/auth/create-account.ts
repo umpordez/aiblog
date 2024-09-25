@@ -12,7 +12,7 @@ interface User {
 interface Account {
     title: string;
     link: string;
-    groq_api_key: string;
+    ai_api_key: string;
 }
 
 interface Avatar {
@@ -29,7 +29,7 @@ const User = z.object({
 const Account = z.object({
     title: z.string().min(5),
     link: z.string().min(4),
-    groq_api_key: z.string()
+    ai_api_key: z.string()
 });
 
 const Avatar = z.object({
@@ -53,13 +53,13 @@ function getFormValues() : {
     const password = values.get('password') as string;
     const title = values.get('title') as string;
     const link = values.get('link') as string;
-    const groq_api_key = values.get('groq_api_key') as string;
+    const ai_api_key = values.get('ai_api_key') as string;
     const avatar_name = values.get('avatar_name') as string;
     const avatar_description = values.get('avatar_description') as string;
 
     return {
         user: { name, email, password },
-        account: { title, link, groq_api_key },
+        account: { title, link, ai_api_key },
         avatar: { avatar_name, avatar_description }
     };
 }

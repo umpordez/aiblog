@@ -25,6 +25,9 @@ interface AvatarInput {
         'done'
 
     avatar?: Avatar;
+    transcription: string;
+    final_text: string;
+    filepath: string;
 }
 
 interface AvatarInputStatus {

@@ -4,14 +4,14 @@ export interface Account {
     id: string;
     title: string;
     link: string;
-    groq_api_key?: string;
+    ai_api_key: string;
     utc_created_on: Date
 }
 
 export interface AccountCreate {
     title: string;
     link: string;
-    groq_api_key?: string;
+    ai_api_key?: string;
 }
 
 class AccountModel extends BaseModel {
@@ -33,6 +33,16 @@ class AccountModel extends BaseModel {
             account_id: id,
             role
         });
+    }
+
+    async getById(id: string): Promise<Account> {
+        const acc = await this.knex('accounts').where({ id }).first();
+
+        if (!acc) { 
+            throw new Error('Account not found.');
+        }
+
+        return acc;
     }
 
     async getByLink(link: string): Promise<Account> {

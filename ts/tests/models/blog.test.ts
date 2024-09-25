@@ -47,7 +47,7 @@ test('[ModelBlog] can create :D', async () => {
     }, {
         title: 'Foo',
         link: 'bar',
-        groq_api_key: 'foo'
+        ai_api_key: 'foo'
     }, {
         name: 'Foozao',
         system_prompt: 'Test test'
