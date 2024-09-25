@@ -3,7 +3,11 @@ import ytdl from '@distube/ytdl-core';
 
 class YouTubeClient {
     async downloadAudio(url: string, filepath: string): Promise<void> {
-        const audio = ytdl(url, { filter: 'audioonly' });
+        const audio = ytdl(url, {
+            filter: 'audioonly',
+            quality: 'lowest',
+            format: 'mp3'
+        });
         const stream = fs.createWriteStream(filepath);
 
         return new Promise((resolve, reject) => {

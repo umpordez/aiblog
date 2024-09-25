@@ -12,7 +12,7 @@ context
         const AVATAR_INPUT_FILEPATH = process.env
             .AVATAR_INPUT_FILEPATH as string;
 
-        const filepath = `${AVATAR_INPUT_FILEPATH}/${avatarInput.id}.m4a`
+        const filepath = `${AVATAR_INPUT_FILEPATH}/${avatarInput.id}.mp3`
 
         logger.info([
             `Downloading ${avatarInput.id} = ${avatarInput.youtube_url}`,

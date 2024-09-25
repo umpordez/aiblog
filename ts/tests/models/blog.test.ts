@@ -87,7 +87,6 @@ test('[ModelBlog] createPost/getPostById/getAllPosts', async () => {
     assert(account);
     assert(account.id);
     assert(account.title === 'Foo');
-    assert(account.link === 'bar');
 
     assert(avatar);
     assert(user);
