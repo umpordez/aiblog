@@ -40,6 +40,7 @@ test('[ModelBlog] initialize / sanitize', () => {
 test('[ModelBlog] can create :D', async () => {
     const ctx = new Context();
     const client = new Blog(ctx);
+    const link = `spec_${new Date().getTime()}`;
 
     const { account, user, avatar } = await client.create({
         name: 'Test',
@@ -47,7 +48,7 @@ test('[ModelBlog] can create :D', async () => {
         password: 'foobar'
     }, {
         title: 'Foo',
-        link: `spec_${new Date().getTime()}`,
+        link,
         ai_api_key: 'foo'
     }, {
         name: 'Foozao',
@@ -57,7 +58,7 @@ test('[ModelBlog] can create :D', async () => {
     assert(account);
     assert(account.id);
     assert(account.title === 'Foo');
-    assert(account.link === 'bar');
+    assert(account.link === link);
 
     assert(avatar);
     assert(user);
