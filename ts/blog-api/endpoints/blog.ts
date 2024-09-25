@@ -11,33 +11,38 @@ import {
 
 const router = express.Router();
 
-router.get(
-    '/post/:postId',
-    buildHandler(async (req: ApiRequest, res: Response) => {
-        if (!req.ctx || !req.account) {
-            throw new Error('UH Oh! Something veeeery odd is happening...')
-        }
+async function getPostHandler(
+    req: ApiRequest,
+    res: Response
+) : Promise<void> {
+    if (!req.ctx || !req.account) {
+        throw new Error('UH Oh! Something veeeery odd is happening...')
+    }
 
-        const blogPost = await req.ctx
-            .blog
-            .getById(req.account.id, req.params.postId);
+    const blogPost = await req.ctx
+        .blog
+        .getPostById(req.account.id, req.params.postId);
 
-        res.status(200).json({ ok: true, ...blogPost })
-    }));
+    res.status(200).json({ ok: true, ...blogPost });
+}
 
-router.get(
-    '/posts',
-    buildHandler(async (req: ApiRequest, res: Response) => {
-        if (!req.ctx || !req.account) {
-            throw new Error('UH Oh! Something veeeery odd is happening...')
-        }
+async function getAllPostHandler(
+    req: ApiRequest,
+    res: Response
+) : Promise<void> {
+    if (!req.ctx || !req.account) {
+        throw new Error('UH Oh! Something veeeery odd is happening...')
+    }
 
-        const blogPosts = await req.ctx
-            .blog
-            .getAllPostsByAccountId(req.account.id);
+    const blogPosts = await req.ctx
+        .blog
+        .getAllPostsByAccountId(req.account.id);
 
-        res.status(200).json([ ...blogPosts ])
-    }));
+    res.status(200).json([...blogPosts])
+}
+
+router.get('/post/:postId', buildHandler(getPostHandler));
+router.get('/posts', buildHandler(getAllPostHandler));
 
 export default function makeEndpoint (app: Express) {
     app.use(

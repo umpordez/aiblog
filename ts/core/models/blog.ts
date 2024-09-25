@@ -16,7 +16,7 @@ interface BlogPost extends BlogPostData {
 }
 
 class BlogModel extends BaseModel {
-    async getById(accountId: string, postId: string) : Promise<BlogPost> {
+    async getPostById(accountId: string, postId: string) : Promise<BlogPost> {
         const blogPost = await this.knex('blog_posts').where({
             id: postId,
             account_id: accountId

@@ -97,7 +97,7 @@ class AvatarModel extends BaseModel {
         return avatarInput;
     }
 
-    async getInput(
+    async getInputByAccountAndId(
         accountId: string,
         avatarInputId: string
     ): Promise<AvatarInput> {

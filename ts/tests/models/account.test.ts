@@ -146,3 +146,31 @@ test('[ModelAccount] demandUserAccess', async () => {
     await ctx.account.addUser(account.id, user.id, 'admin');
     await ctx.account.demandUserAccess(account.id, user.id);
 });
+
+
+test('[ModelAccount] getById', async () => {
+    const ctx = new Context();
+    const email = `spec_${new Date().getTime()}`;
+    const link = `spec_${new Date().getTime()}`;
+
+    const user = await ctx.user.create({
+        email,
+        name: 'Foo',
+        password: 'bar'
+    });
+
+    userIds.push(user.id);
+
+    const account = await ctx.account.create({
+        title: 'Foo',
+        link
+    });
+
+    accountIds.push(account.id);
+
+    const dbAccount = await ctx.account.getById(account.id);
+
+    assert.strictEqual(account.id, dbAccount.id);
+    assert.strictEqual(account.title, dbAccount.title);
+    assert.strictEqual(account.link, dbAccount.link);
+});

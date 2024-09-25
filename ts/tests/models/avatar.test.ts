@@ -109,7 +109,6 @@ test('[ModelAvatar] can get avatar input status', async () => {
     const input = await ctx.avatar
         .createInput(account.id, 'https://www.youtube.com/watch?v=CPNUQskQLlA');
 
-
     let status = await ctx.avatar
         .getInputStatus(account.id, input.id);
 
@@ -120,7 +119,6 @@ test('[ModelAvatar] can get avatar input status', async () => {
     await knex('avatar_inputs')
         .update({ status: 'downloading'})
         .where({ id: input.id });
-
 
     status = await ctx.avatar
         .getInputStatus(account.id, input.id);
@@ -168,4 +166,171 @@ test('[ModelAvatar] can get avatar input status', async () => {
     assert(status.isRunning === false);
     assert(status.isAudioDone === true);
     assert(status.isTranscriptionDone === true);
+});
+
+test('[ModelAvatar] getInputById', async () => {
+    const ctx = new Context();
+    const client = new Avatar(ctx);
+    const link = `spec_${new Date().getTime()}`;
+
+    const account = await ctx.account.create({
+        title: 'Foo',
+        link
+    });
+
+    accountIds.push(account.id);
+
+    const avatar = await client.create(
+        account.id,
+        { name: 'Foo', system_prompt: 'Bar' }
+    );
+
+    avatarIds.push(avatar.id);
+
+    const input = await ctx.avatar
+        .createInput(account.id, 'https://www.youtube.com/watch?v=CPNUQskQLlA');
+
+    const dbInput = await ctx.avatar.getInputById(
+        input.id
+    );
+
+    assert.strictEqual(dbInput.id, input.id);
+    assert.strictEqual(dbInput.status, 'waiting');
+});
+
+test('[ModelAvatar] getInputByAccountAndId', async () => {
+    const ctx = new Context();
+    const client = new Avatar(ctx);
+    const link = `spec_${new Date().getTime()}`;
+
+    const account = await ctx.account.create({
+        title: 'Foo',
+        link
+    });
+
+    accountIds.push(account.id);
+
+    const avatar = await client.create(
+        account.id,
+        { name: 'Foo', system_prompt: 'Bar' }
+    );
+
+    avatarIds.push(avatar.id);
+
+    const input = await ctx.avatar
+        .createInput(account.id, 'https://www.youtube.com/watch?v=CPNUQskQLlA');
+
+    const dbInput = await ctx.avatar.getInputByAccountAndId(
+        account.id,
+        input.id
+    );
+
+    assert.strictEqual(dbInput.id, input.id);
+    assert.strictEqual(dbInput.status, 'waiting');
+});
+
+test('[ModelAvatar] updateAvatarInputFilepathAndStatus', async () => {
+    const ctx = new Context();
+    const client = new Avatar(ctx);
+    const link = `spec_${new Date().getTime()}`;
+
+    const account = await ctx.account.create({
+        title: 'Foo',
+        link
+    });
+
+    accountIds.push(account.id);
+
+    const avatar = await client.create(
+        account.id,
+        { name: 'Foo', system_prompt: 'Bar' }
+    );
+
+    avatarIds.push(avatar.id);
+
+    const input = await ctx.avatar
+        .createInput(account.id, 'https://www.youtube.com/watch?v=CPNUQskQLlA');
+
+    await ctx.avatar.updateAvatarInputFilepathAndStatus(
+        input.id,
+        'foobar'
+    );
+
+    const dbInput = await ctx.avatar.getInputById(
+        input.id
+    );
+
+    assert.strictEqual(dbInput.id, input.id);
+    assert.strictEqual(dbInput.status, 'downloaded');
+});
+
+
+test('[ModelAvatar] updateAvatarInputTranscriptionAndStatus / getInputById', async () => {
+    const ctx = new Context();
+    const client = new Avatar(ctx);
+    const link = `spec_${new Date().getTime()}`;
+
+    const account = await ctx.account.create({
+        title: 'Foo',
+        link
+    });
+
+    accountIds.push(account.id);
+
+    const avatar = await client.create(
+        account.id,
+        { name: 'Foo', system_prompt: 'Bar' }
+    );
+
+    avatarIds.push(avatar.id);
+
+    const input = await ctx.avatar
+        .createInput(account.id, 'https://www.youtube.com/watch?v=CPNUQskQLlA');
+
+    await ctx.avatar.updateAvatarInputTranscriptionAndStatus(
+        input.id,
+        'foobar'
+    );
+
+    const dbInput = await ctx.avatar.getInputById(
+        input.id
+    );
+
+    assert.strictEqual(dbInput.id, input.id);
+    assert.strictEqual(dbInput.status, 'transcribed');
+});
+
+test('[ModelAvatar] updateAvatarInputFullTextAndStatus', async () => {
+    const ctx = new Context();
+    const client = new Avatar(ctx);
+    const link = `spec_${new Date().getTime()}`;
+
+    const account = await ctx.account.create({
+        title: 'Foo',
+        link
+    });
+
+    accountIds.push(account.id);
+
+    const avatar = await client.create(
+        account.id,
+        { name: 'Foo', system_prompt: 'Bar' }
+    );
+
+    avatarIds.push(avatar.id);
+
+    const input = await ctx.avatar
+        .createInput(account.id, 'https://www.youtube.com/watch?v=CPNUQskQLlA');
+
+    await ctx.avatar.updateAvatarInputFullTextAndStatus(
+        input.id,
+        'foobar'
+    );
+
+    const dbInput = await ctx.avatar.getInputById(
+        input.id
+    );
+
+    assert.strictEqual(dbInput.id, input.id);
+    assert.strictEqual(dbInput.status, 'done');
 });
