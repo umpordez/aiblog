@@ -27,17 +27,18 @@ test('[ModelUser] initialize / sanitize', () => {
 test('[ModelUser] can create user', async () => {
     const ctx = new Context();
     const client = new User(ctx);
+    const email = `spec_${new Date().getTime()}`;
 
     const user = await client.create({
         name: 'Foo',
-        email: 'foo',
+        email,
         password: 'bar'
     });
 
     assert(user);
     assert(user.id);
     assert(user.name === 'Foo');
-    assert(user.email === 'foo');
+    assert(user.email === email);
 
     userIds.push(user.id);
 });
@@ -45,17 +46,18 @@ test('[ModelUser] can create user', async () => {
 test('[ModelUser] get by id', async () => {
     const ctx = new Context();
     const client = new User(ctx);
+    const email = `spec_${new Date().getTime()}`;
 
     const user = await client.create({
         name: 'Foo',
-        email: 'foo',
+        email,
         password: 'bar'
     });
 
     assert(user);
     assert(user.id);
     assert(user.name === 'Foo');
-    assert(user.email === 'foo');
+    assert(user.email === email);
 
     userIds.push(user.id);
 
@@ -68,22 +70,23 @@ test('[ModelUser] get by id', async () => {
 test('[ModelUser] can create login', async () => {
     const ctx = new Context();
     const client = new User(ctx);
+    const email = `spec_${new Date().getTime()}`;
 
     const user = await client.create({
         name: 'Foo',
-        email: 'foo',
+        email,
         password: 'bar'
     });
 
     assert(user);
     assert(user.id);
     assert(user.name === 'Foo');
-    assert(user.email === 'foo');
+    assert(user.email === email);
 
     userIds.push(user.id);
 
     try {
-        await client.login('foo', '123');
+        await client.login(email, '123');
         throw new Error('Unexpected');
     } catch (ex) {
         if (ex instanceof Error) {
@@ -104,5 +107,5 @@ test('[ModelUser] can create login', async () => {
         }
     }
 
-    await client.login('foo', 'bar');
+    await client.login(email, 'bar');
 });

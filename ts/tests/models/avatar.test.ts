@@ -36,16 +36,17 @@ test('[ModelAvatar] initialize / sanitize', () => {
 test('[ModelAvatar] can createInput', async () => {
     const ctx = new Context();
     const client = new Avatar(ctx);
+    const link = `spec_${new Date().getTime()}`;
 
     const account = await ctx.account.create({
         title: 'Foo',
-        link: 'foo_bzzd'
+        link
     });
 
     assert(account);
     assert(account.id);
     assert(account.title === 'Foo');
-    assert(account.link === 'foo_bzzd');
+    assert(account.link === link);
 
     accountIds.push(account.id);
 
@@ -61,10 +62,11 @@ test('[ModelAvatar] can createInput', async () => {
 test('[ModelAvatar] can create avatar input', async () => {
     const ctx = new Context();
     const client = new Avatar(ctx);
+    const link = `spec_${new Date().getTime()}`;
 
     const account = await ctx.account.create({
         title: 'Foo',
-        link: 'foozdd'
+        link
     });
 
     accountIds.push(account.id);
@@ -88,10 +90,11 @@ test('[ModelAvatar] can create avatar input', async () => {
 test('[ModelAvatar] can get avatar input status', async () => {
     const ctx = new Context();
     const client = new Avatar(ctx);
+    const link = `spec_${new Date().getTime()}`;
 
     const account = await ctx.account.create({
         title: 'Foo',
-        link: 'foozdd'
+        link
     });
 
     accountIds.push(account.id);

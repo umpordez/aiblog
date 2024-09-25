@@ -80,6 +80,12 @@ class BlogModel extends BaseModel {
             ...blogPostData
         }).returning('*');
 
+        console.log(this.knex('blog_posts').insert({
+            account_id: accountId,
+            ...blogPostData
+        }).returning('*').toSQL())
+
+
         return insertData[0];
     }
 }
