@@ -16,6 +16,9 @@ jobs:
         image: postgres:latest
 
         env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: sheriff
           PSQL_USER: postgres
           PSQL_PASSWORD: postgres
           PSQL_DATABASE: sheriff
