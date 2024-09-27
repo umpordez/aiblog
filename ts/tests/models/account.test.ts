@@ -39,7 +39,7 @@ test('[ModelAccount] initialize / sanitize', () => {
 test('[ModelAccount] can create account', async () => {
     const ctx = new Context();
     const client = new Account(ctx);
-    const link = `spec_${new Date().getTime()}`;
+    const link = `spec1_${new Date().getTime()}`;
 
     const account = await client.create({
         title: 'Foo',
@@ -56,8 +56,8 @@ test('[ModelAccount] can create account', async () => {
 
 test('[ModelAccount] can create account, create user and associate', async () => {
     const ctx = new Context();
-    const email = `spec_${new Date().getTime()}`;
-    const link = `spec_${new Date().getTime()}`;
+    const email = `spec2_${new Date().getTime()}`;
+    const link = `spec2_${new Date().getTime()}`;
 
     const user = await ctx.user.create({
         name: 'Foo',
@@ -86,8 +86,8 @@ test('[ModelAccount] can create account, create user and associate', async () =>
 
 test('[ModelAccount] getAllByUserId', async () => {
     const ctx = new Context();
-    const email = `spec_${new Date().getTime()}`;
-    const link = `spec_${new Date().getTime()}`;
+    const email = `spec3_${new Date().getTime()}`;
+    const link = `spec3_${new Date().getTime()}`;
 
     const user = await ctx.user.create({
         email,
@@ -114,8 +114,8 @@ test('[ModelAccount] getAllByUserId', async () => {
 
 test('[ModelAccount] demandUserAccess', async () => {
     const ctx = new Context();
-    const email = `spec_${new Date().getTime()}`;
-    const link = `spec_${new Date().getTime()}`;
+    const email = `spec4_${new Date().getTime()}`;
+    const link = `spec4_${new Date().getTime()}`;
 
     const user = await ctx.user.create({
         name: 'Foo',
@@ -150,8 +150,8 @@ test('[ModelAccount] demandUserAccess', async () => {
 
 test('[ModelAccount] getById', async () => {
     const ctx = new Context();
-    const email = `spec_${new Date().getTime()}`;
-    const link = `spec_${new Date().getTime()}`;
+    const email = `spec5_${new Date().getTime()}`;
+    const link = `spec5_${new Date().getTime()}`;
 
     const user = await ctx.user.create({
         email,

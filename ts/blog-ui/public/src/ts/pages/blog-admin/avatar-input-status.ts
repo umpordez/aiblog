@@ -1,5 +1,7 @@
-import config from '../config.js';
-import ajaxAdapter from '../ajax-adapter.js';
+import '../../components/header.js';
+
+import config from '../../core/config.js';
+import ajaxAdapter from '../../core/ajax-adapter.js';
 
 const { avatarInputId } = window;
 

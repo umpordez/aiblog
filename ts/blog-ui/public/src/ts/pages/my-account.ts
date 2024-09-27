@@ -1,4 +1,5 @@
-import ajaxAdapter from "./ajax-adapter.js";
+import '../components/header.js';
+import ajaxAdapter from "../core/ajax-adapter.js";
 
 let user;
 let accounts;

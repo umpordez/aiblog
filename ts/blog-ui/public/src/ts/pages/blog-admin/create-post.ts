@@ -1,9 +1,11 @@
-import { z } from '/lib/zod3.23.8.js';
-import { validateZodSchema } from '../utils.js';
-import loading from "../loading.js";
+import '../../components/header.js';
 
-import config from '../config.js';
-import ajaxAdapter from '../ajax-adapter.js';
+import { z } from '/lib/zod3.23.8.js';
+import { validateZodSchema } from '../../core/utils.js';
+import loading from "../../components/loading.js";
+
+import config from '../../core/config.js';
+import ajaxAdapter from '../../core/ajax-adapter.js';
 
 const $step1Form = document.querySelector('form.step-1') as HTMLFormElement;
 

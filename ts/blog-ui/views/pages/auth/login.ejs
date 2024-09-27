@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-<%- include('../partials/head.ejs') %>
+<%- include('../../partials/head.ejs') %>
     <body>
         <div class="grid grid-rows-[auto_1fr_auto] min-h-screen">
-            <%- include('../partials/header.ejs') %>
+            <%- include('../../partials/header.ejs') %>
                 <main class="bg-gray-50">
                     <div class="py-4 px-4 mx-auto max-w-[400px]">
                         <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900">
@@ -51,10 +51,10 @@
                         </form>
                     </div>
                 </main>
-                <%- include('../partials/footer.ejs') %>
+                <%- include('../../partials/footer.ejs') %>
         </div>
-        <%- include('../partials/loading-overlay.ejs') %>
-        <script type='module' src="/dist/auth/login.js"></script>
+        <%- include('../../partials/loading-overlay.ejs') %>
+        <script type='module' src="/dist/pages/auth/login.js"></script>
     </body>
 
 </html>

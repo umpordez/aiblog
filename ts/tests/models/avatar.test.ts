@@ -36,7 +36,7 @@ test('[ModelAvatar] initialize / sanitize', () => {
 test('[ModelAvatar] can createInput', async () => {
     const ctx = new Context();
     const client = new Avatar(ctx);
-    const link = `spec_${new Date().getTime()}`;
+    const link = `spec6_${new Date().getTime()}`;
 
     const account = await ctx.account.create({
         title: 'Foo',
@@ -62,7 +62,7 @@ test('[ModelAvatar] can createInput', async () => {
 test('[ModelAvatar] can create avatar input', async () => {
     const ctx = new Context();
     const client = new Avatar(ctx);
-    const link = `spec_${new Date().getTime()}`;
+    const link = `spec7_${new Date().getTime()}`;
 
     const account = await ctx.account.create({
         title: 'Foo',
@@ -90,7 +90,7 @@ test('[ModelAvatar] can create avatar input', async () => {
 test('[ModelAvatar] can get avatar input status', async () => {
     const ctx = new Context();
     const client = new Avatar(ctx);
-    const link = `spec_${new Date().getTime()}`;
+    const link = `spec8_${new Date().getTime()}`;
 
     const account = await ctx.account.create({
         title: 'Foo',
@@ -171,7 +171,7 @@ test('[ModelAvatar] can get avatar input status', async () => {
 test('[ModelAvatar] getInputById', async () => {
     const ctx = new Context();
     const client = new Avatar(ctx);
-    const link = `spec_${new Date().getTime()}`;
+    const link = `spec9_${new Date().getTime()}`;
 
     const account = await ctx.account.create({
         title: 'Foo',
@@ -201,7 +201,7 @@ test('[ModelAvatar] getInputById', async () => {
 test('[ModelAvatar] getInputByAccountAndId', async () => {
     const ctx = new Context();
     const client = new Avatar(ctx);
-    const link = `spec_${new Date().getTime()}`;
+    const link = `spec10_${new Date().getTime()}`;
 
     const account = await ctx.account.create({
         title: 'Foo',
@@ -232,7 +232,7 @@ test('[ModelAvatar] getInputByAccountAndId', async () => {
 test('[ModelAvatar] updateAvatarInputFilepathAndStatus', async () => {
     const ctx = new Context();
     const client = new Avatar(ctx);
-    const link = `spec_${new Date().getTime()}`;
+    const link = `spec11_${new Date().getTime()}`;
 
     const account = await ctx.account.create({
         title: 'Foo',
@@ -268,7 +268,7 @@ test('[ModelAvatar] updateAvatarInputFilepathAndStatus', async () => {
 test('[ModelAvatar] updateAvatarInputTranscriptionAndStatus / getInputById', async () => {
     const ctx = new Context();
     const client = new Avatar(ctx);
-    const link = `spec_${new Date().getTime()}`;
+    const link = `spec12_${new Date().getTime()}`;
 
     const account = await ctx.account.create({
         title: 'Foo',
@@ -303,7 +303,7 @@ test('[ModelAvatar] updateAvatarInputTranscriptionAndStatus / getInputById', asy
 test('[ModelAvatar] updateAvatarInputFullTextAndStatus', async () => {
     const ctx = new Context();
     const client = new Avatar(ctx);
-    const link = `spec_${new Date().getTime()}`;
+    const link = `spec13_${new Date().getTime()}`;
 
     const account = await ctx.account.create({
         title: 'Foo',

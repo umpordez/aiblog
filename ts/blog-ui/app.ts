@@ -89,41 +89,41 @@ function buildHandler(fn: Handler) {
             await fn(req, res);
         } catch (ex) {
             console.error(ex);
-            res.render('404', { page: getPage(req.url) });
+            res.render('pages/404', { page: getPage(req.url) });
         }
     };
 }
 
 app.get('/', buildHandler(async (_req: AiBlogRequest, res: Response) => {
-    res.render('home');
+    res.render('pages/home');
 }));
 
 app.get(
     '/blog/:blogLink',
     resolveBlogLinkMiddleware,
     buildHandler(async (_req: AiBlogRequest, res: Response) => {
-        res.render('blog/home-account');
+        res.render('pages/blog/home-account');
     }));
 
 app.get(
     '/blog/:blogLink/create-post',
     resolveBlogLinkMiddleware,
     buildHandler(async (_req: AiBlogRequest, res: Response) => {
-        res.render('blog-admin/create-post');
+        res.render('pages/blog-admin/create-post');
     }));
 
 app.get(
     '/blog/:blogLink/post/:postId',
     resolveBlogLinkMiddleware,
     buildHandler(async (req: AiBlogRequest, res: Response) => {
-        res.render('blog/post-view', { postId: req.params.postId });
+        res.render('pages/blog/post-view', { postId: req.params.postId });
     }));
 
 app.get(
     '/blog/:blogLink/avatar-input-status/:avatarInputId',
     resolveBlogLinkMiddleware,
     buildHandler(async (req: AiBlogRequest, res: Response) => {
-        res.render('blog-admin/avatar-input-status', {
+        res.render('pages/blog-admin/avatar-input-status', {
             avatarInputId: req.params.avatarInputId
         });
     }));
@@ -132,29 +132,29 @@ app.get(
     '/blog/:blogLink/avatar-input/:avatarInputId',
     resolveBlogLinkMiddleware,
     buildHandler(async (req: AiBlogRequest, res: Response) => {
-        res.render('blog-admin/avatar-input', {
+        res.render('pages/blog-admin/avatar-input', {
             avatarInputId: req.params.avatarInputId
         });
     }));
 
 app.get('/login', buildHandler(async (_req: AiBlogRequest, res: Response) => {
-    res.render('auth/login');
+    res.render('pages/auth/login');
 }));
 
 app.get(
     '/my-account',
     buildHandler(async (_req: AiBlogRequest, res: Response) => {
-        res.render('my-account');
+        res.render('pages/my-account');
     }));
 
 app.get(
     '/create-account',
     buildHandler(async (_req: AiBlogRequest, res: Response) => {
-        res.render('auth/create-account');
+        res.render('pages/auth/create-account');
     }));
 
 app.use(buildHandler(async (_req: AiBlogRequest, res: Response) => {
-    res.render('404');
+    res.render('pages/404');
 }));
 
 app.listen(process.env.BLOG_UI_PORT, () => {

@@ -51,6 +51,13 @@ app.get('/', buildHandler(async (_req: ApiRequest, res: Response) => {
 }));
 
 app.get(
+    '/blogs',
+    buildHandler(async (req: ApiRequest, res: Response) => {
+        const accounts = await req.ctx?.account.getAll();
+        res.status(200).json({ blogs: accounts });
+    }));
+
+app.get(
     '/me',
     trySetUserMiddleware,
     buildHandler(async (req: ApiRequest, res: Response) => {

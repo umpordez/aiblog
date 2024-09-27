@@ -15,6 +15,10 @@ export interface AccountCreate {
 }
 
 class AccountModel extends BaseModel {
+    async getAll() {
+        return this.knex('accounts');
+    }
+
     async create({ title, link }: {
         title: string,
         link: string

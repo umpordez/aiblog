@@ -1,7 +1,9 @@
+import '../../components/header.js';
+
 import { z } from '/lib/zod3.23.8.js';
-import { validateZodSchema } from '../utils.js';
-import ajaxAdapter from '../ajax-adapter.js';
-import loading from '../loading.js';
+import { validateZodSchema } from '../../core/utils.js';
+import ajaxAdapter from '../../core/ajax-adapter.js';
+import loading from '../../components/loading.js';
 
 interface Login {
     email: string;

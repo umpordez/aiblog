@@ -19,7 +19,6 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: sheriff
-          AUDIO_TEST_FILEPATH: ./audio-test.m4a
 
         ports:
           - 5432:5432
@@ -49,3 +48,11 @@ jobs:
       - name: eslint nodejs
         working-directory: ./ts
         run: npm run lint
+
+      - name: runs migrations
+        working-directory: ./ts
+        run: npm run migrate:latest
+
+      - name: runs tests
+        working-directory: ./ts
+        run: npm test 

@@ -40,11 +40,11 @@ test('[ModelBlog] initialize / sanitize', () => {
 test('[ModelBlog] can create :D', async () => {
     const ctx = new Context();
     const client = new Blog(ctx);
-    const link = `spec_${new Date().getTime()}`;
+    const link = `spec14_${new Date().getTime()}`;
 
     const { account, user, avatar } = await client.create({
         name: 'Test',
-        email: `spec_${new Date().getTime()}`,
+        email: `spec15_${new Date().getTime()}`,
         password: 'foobar'
     }, {
         title: 'Foo',
@@ -73,11 +73,11 @@ test('[ModelBlog] createPost/getPostById/getAllPosts', async () => {
 
     const { account, user, avatar } = await client.create({
         name: 'Test',
-        email: `spec_${new Date().getTime()}`,
+        email: `spec16_${new Date().getTime()}`,
         password: 'foobar'
     }, {
         title: 'Foo',
-        link: `spec_${new Date().getTime()}`,
+        link: `spec16_${new Date().getTime()}`,
         ai_api_key: 'foo'
     }, {
         name: 'Foozao',

@@ -1,8 +1,10 @@
+import '../../components/header.js';
+
 import DOMPurify from '/lib/purify3.1.6.js';
 
-import config from '../config.js';
-import ajaxAdapter from '../ajax-adapter.js';
-import loading from '../loading.js';
+import config from '../../core/config.js';
+import ajaxAdapter from '../../core/ajax-adapter.js';
+import loading from '../../components/loading.js';
 
 const { postId } = window;
 

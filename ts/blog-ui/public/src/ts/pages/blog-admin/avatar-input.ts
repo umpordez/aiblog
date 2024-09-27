@@ -1,10 +1,12 @@
+import '../../components/header.js';
+
 import { z } from '/lib/zod3.23.8.js';
 
-import config from '../config.js';
-import ajaxAdapter from '../ajax-adapter.js';
-import loading from '../loading.js';
+import config from '../../core/config.js';
+import ajaxAdapter from '../../core/ajax-adapter.js';
+import loading from '../../components/loading.js';
 
-import { validateZodSchema } from '../utils.js';
+import { validateZodSchema } from '../../core/utils.js';
 
 const { avatarInputId } = window;
 

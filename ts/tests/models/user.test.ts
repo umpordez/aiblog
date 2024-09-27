@@ -27,7 +27,7 @@ test('[ModelUser] initialize / sanitize', () => {
 test('[ModelUser] can create user', async () => {
     const ctx = new Context();
     const client = new User(ctx);
-    const email = `spec_${new Date().getTime()}`;
+    const email = `spec17_${new Date().getTime()}`;
 
     const user = await client.create({
         name: 'Foo',
@@ -46,7 +46,7 @@ test('[ModelUser] can create user', async () => {
 test('[ModelUser] get by id', async () => {
     const ctx = new Context();
     const client = new User(ctx);
-    const email = `spec_${new Date().getTime()}`;
+    const email = `spec18_${new Date().getTime()}`;
 
     const user = await client.create({
         name: 'Foo',
@@ -70,7 +70,7 @@ test('[ModelUser] get by id', async () => {
 test('[ModelUser] can create login', async () => {
     const ctx = new Context();
     const client = new User(ctx);
-    const email = `spec_${new Date().getTime()}`;
+    const email = `spec18_${new Date().getTime()}`;
 
     const user = await client.create({
         name: 'Foo',
