@@ -43,6 +43,10 @@ jobs:
           cache: npm
           cache-dependency-path: ./ts/package-lock.json
 
+      - uses: shogo82148/actions-setup-redis@v1
+        with:
+          redis-version: "7.x"
+
       - name: install deps nodejs
         working-directory: ./ts
         run: |
