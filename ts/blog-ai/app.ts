@@ -53,7 +53,7 @@ async function createPost (avatarInputId: string) : Promise<void> {
     const groq = new GroqClient(account.ai_api_key);
     logger.info(`Creating Post: ${avatarInput.id}`);
 
-    const choices = await groq.createCompletions([
+    const blogPostChoices = await groq.createCompletions([
         {
             role: 'system',
             content: `
@@ -79,15 +79,83 @@ async function createPost (avatarInputId: string) : Promise<void> {
         }
     ]);
 
-    const firstChoice = choices[0];
+    const firstChoice = blogPostChoices[0];
     if (!firstChoice || !firstChoice || !firstChoice.message) {
         throw new Error('Something went wrong!');
     }
 
     const postMarkdown = firstChoice.message.content as string;
+    const blogTitleChoices = await groq.createCompletions([
+        {
+            role: 'system',
+            content: `
+                You are a skilled blog writer.
+                Your output must be a well written title,
+                it must have less then 250 characteres, you should
+                NOT describe why, must output only the title.
+                This should be well written in the target language,
+                you are very good with words for your audience.
+                Use the reference text to make your title.
+
+                Your output must be only one paragraph.
+            `
+        },
+
+        {
+            role: 'system',
+            content: avatarInput.avatar.system_prompt
+        },
+
+        {
+            role: 'user',
+            content: `reference text:\n${postMarkdown}`
+        }
+    ]);
+
+    const blogSummarizeChoices = await groq.createCompletions([
+        {
+            role: 'system',
+            content: `
+                You are a skilled blog writer.
+                Your output must be a well written short description,
+                it must have less then 500 characteres, you should
+                NOT describe why, must output only the short description.
+                This should be well written in the target language,
+                you are very good with words for your audience.
+                Use the reference text to summarize your short text.
+                Your output must be only one paragraph.
+            `
+        },
+
+        {
+            role: 'system',
+            content: avatarInput.avatar.system_prompt
+        },
+
+        {
+            role: 'user',
+            content: `reference text:\n${postMarkdown}`
+        }
+    ]);
+
+    const firstChoiceBlogTitle = blogTitleChoices[0];
+    const firstChoiceBlogSummarize = blogSummarizeChoices[0];
+
+    let finalTitle = '';
+    let finalShortDescription = '';
+
+    if (firstChoiceBlogTitle) {
+        finalTitle = firstChoiceBlogTitle.message.content as string;
+    }
+
+    if (firstChoiceBlogSummarize) {
+        finalShortDescription = firstChoiceBlogSummarize.message.content as string;
+    }
 
     await context.avatar.updateAvatarInputFullTextAndStatus(
         avatarInput.id,
+        finalTitle,
+        finalShortDescription,
         markdown(postMarkdown) as string
     );
 

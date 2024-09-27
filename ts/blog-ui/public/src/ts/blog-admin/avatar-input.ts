@@ -23,6 +23,8 @@ interface Avatar {
 interface AvatarInput {
     id: string;
     title: string;
+    final_title: string;
+    final_short_description: string;
     final_text: string;
     avatar: Avatar
 }
@@ -30,6 +32,7 @@ interface AvatarInput {
 interface BlogPost {
     title: string;
     description: string;
+    short_description: string;
     avatarId: string;
 }
 
@@ -61,10 +64,14 @@ const fields = Array.from($form) as HTMLInputElement[] | HTMLTextAreaElement[];
 const $title = fields
     .find((f) => f.name === 'title') as HTMLInputElement;
 
+const $shortDescription= fields
+    .find((f) => f.name === 'short_description') as HTMLTextAreaElement;
+
 const $description = fields
     .find((f) => f.name === 'description') as HTMLTextAreaElement;
 
-$title.value = 'Hello World, please change me.';
+$title.value = avatarInput.final_title;
+$shortDescription.value = avatarInput.final_short_description;
 $description.innerHTML = avatarInput.final_text;
 
 $avatarName.innerHTML = avatarInput.avatar.name;
@@ -73,9 +80,15 @@ function getBlogPostValues() : BlogPost {
     const values = new FormData($form);
 
     const title = values.get('title') as string;
+    const short_description = values.get('short_description') as string;
     const description = values.get('description') as string;
 
-    return { title, description, avatarId: avatarInput.avatar.id };
+    return {
+        title,
+        description,
+        short_description,
+        avatarId: avatarInput.avatar.id
+    };
 }
 
 $form.addEventListener('submit', async (ev) => {

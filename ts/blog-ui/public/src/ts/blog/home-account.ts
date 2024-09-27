@@ -1,3 +1,5 @@
+import DOMPurify from '/lib/purify3.1.6.js';
+
 import config from '../config.js';
 import ajaxAdapter from '../ajax-adapter.js';
 import loading from '../loading.js';
@@ -11,6 +13,8 @@ interface BlogPost {
     id: string;
     title: string;
     description: string;
+    image_url: string;
+    short_description: string;
 }
 
 let blogPosts : BlogPost[];
@@ -29,18 +33,21 @@ try {
 
 const html = blogPosts.map((p) => `
     <article class="max-w-xs">
+        ${p.image_url ? `
         <a href="/blog/${config.accountLink}/post/${p.id}">
             <img
-                src="https://umpordez.com/assets/images/logo.png"
+                src="${p.image_url}"
                 class="mb-5 rounded-lg"
                 alt="${p.title}">
-        </a>
+        </a>` : ''}
         <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900">
             <a href="/blog/${config.accountLink}/post/${p.id}">
                 ${p.title}
             </a>
         </h2>
-        <p class="mb-4 text-gray-500">MUST implements short description :)</p>
+        ${p.short_description ? `
+            <p class="mb-4 text-gray-500">${p.short_description}</p>
+        ` : ''}
         <a
             href="/blog/${config.accountLink}/post/${p.id}"
             class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 hover:no-underline">
@@ -49,4 +56,4 @@ const html = blogPosts.map((p) => `
     </article>
 `).join('');
 
-$blogPostsElement.innerHTML = html;
+$blogPostsElement.innerHTML = DOMPurify.sanitize(html);

@@ -1,3 +1,5 @@
+import DOMPurify from '/lib/purify3.1.6.js';
+
 import config from '../config.js';
 import ajaxAdapter from '../ajax-adapter.js';
 import loading from '../loading.js';
@@ -33,5 +35,5 @@ try {
     throw ex;
 }
 
-$title.innerHTML = blogPost.title;
-$description.innerHTML  = blogPost.description;
+$title.innerHTML = DOMPurify.sanitize(blogPost.title);
+$description.innerHTML  = DOMPurify.sanitize(blogPost.description);

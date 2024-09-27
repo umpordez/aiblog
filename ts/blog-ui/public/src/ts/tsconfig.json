@@ -27,6 +27,10 @@
         "paths": {
             "/lib/zod3.23.8.js": [
                 "../../../../node_modules/zod"
+            ],
+
+            "/lib/purify3.1.6.js": [
+                "../../../../node_modules/@types/dompurify"
             ]
         }
     }

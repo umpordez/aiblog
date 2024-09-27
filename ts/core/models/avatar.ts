@@ -14,6 +14,8 @@ export interface AvatarCreate {
 
 interface AvatarInput {
     id: string;
+    final_title: string;
+    final_short_description: string;
     account_id: string;
     youtube_url: string;
     status: 'waiting' |
@@ -63,9 +65,13 @@ class AvatarModel extends BaseModel {
 
     async updateAvatarInputFullTextAndStatus(
         avatarInputId: string,
+        final_title: string,
+        final_short_description: string,
         final_text: string
     ) : Promise<void> {
         await this.knex('avatar_inputs').update({
+            final_title,
+            final_short_description,
             final_text,
             status: 'done'
         }).where({ id: avatarInputId });

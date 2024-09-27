@@ -1,6 +1,9 @@
 import type { Response, Express } from 'express';
 import express from 'express';
 
+import createDOMPurify from 'dompurify';
+import { JSDOM } from 'jsdom';
+
 import type { ApiRequest  } from '../utils.js';
 import { buildHandler } from '../utils.js';
 
@@ -9,6 +12,9 @@ import {
     trySetUserMiddleware,
     demandAdminBlogAccessMiddleware
 } from '../../core/middleware.js';
+
+const window = new JSDOM('').window;
+const DOMPurify = createDOMPurify(window);
 
 const router = express.Router();
 
@@ -72,8 +78,9 @@ async function createPostHandler(
 
     const blogPostData = {
         avatar_id: req.body.avatarId,
-        title: req.body.title,
-        description: req.body.description
+        title: DOMPurify.sanitize(req.body.title),
+        short_description: DOMPurify.sanitize(req.body.short_description),
+        description: DOMPurify.sanitize(req.body.description)
     };
 
     const blogPost = await req.ctx.blog
