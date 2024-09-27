@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ENV: tests
+      PSQL_USER: postgres
+      PSQL_PASSWORD: postgres
+      PSQL_DATABASE: sheriff
 
     services:
       postgres:
@@ -19,9 +22,6 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: sheriff
-          PSQL_USER: postgres
-          PSQL_PASSWORD: postgres
-          PSQL_DATABASE: sheriff
 
         ports:
           - 5432:5432
