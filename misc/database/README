@@ -1,0 +1,14 @@
+java -jar schemaspy-6.2.4.jar \
+    -t pgsql11 \
+    -db aiblog \
+    -host localhost \
+    -port 5432 \
+    -u user \
+    -p password \
+    -o schemaspy \
+    -dp postgresql-42.7.4.jar \
+    -vizjs
+
+https://jdbc.postgresql.org/download/
+https://schemaspy.readthedocs.io/en/latest/index.html
+

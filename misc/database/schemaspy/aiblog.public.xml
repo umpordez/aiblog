@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><database name="aiblog" schema="public" type="PostgreSQL - 16.3">
+   <sequences>
+      <sequence increment="1" name="knex_migrations_id_seq" startValue="1"/>
+      <sequence increment="1" name="knex_migrations_lock_index_seq" startValue="1"/>
+   </sequences>
+   <tables>
+      <table name="accounts" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <child column="account_id" foreignKey="fk_avatars_accounts" implied="false" onDeleteCascade="false" schema="public" table="avatars"/>
+            <child column="account_id" foreignKey="fk_blog_posts_accounts" implied="false" onDeleteCascade="false" schema="public" table="blog_posts"/>
+            <child column="account_id" foreignKey="fk_user_in_accounts_accounts" implied="false" onDeleteCascade="false" schema="public" table="user_in_accounts"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="title" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="link" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="'groq'::ai_provider" digits="0" id="3" name="ai_provider" nullable="false" remarks="" size="2147483647" type="ai_provider" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="ai_api_key" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="5" name="utc_created_on" nullable="false" remarks="" size="29" type="timestamp" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="pk_accounts" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="uq_accounts_link" unique="true">
+            <column ascending="true" name="link"/>
+         </index>
+      </table>
+      <table name="avatar_inputs" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="avatar_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="fk_avatar_inputs_avatars" implied="false" onDeleteCascade="false" schema="public" table="avatars"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="youtube_url" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="'waiting'::avatar_input_status" digits="0" id="3" name="status" nullable="false" remarks="" size="2147483647" type="avatar_input_status" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="filepath" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="transcription" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="final_text" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="7" name="utc_last_modified_on" nullable="false" remarks="" size="29" type="timestamp" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="8" name="utc_created_on" nullable="false" remarks="" size="29" type="timestamp" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="final_title" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="10" name="final_short_description" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="pk_avatar_inputs" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="avatars" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <child column="avatar_id" foreignKey="fk_avatar_inputs_avatars" implied="false" onDeleteCascade="false" schema="public" table="avatar_inputs"/>
+            <child column="avatar_id" foreignKey="fk_blog_posts_avatars" implied="false" onDeleteCascade="false" schema="public" table="blog_posts"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="account_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="fk_avatars_accounts" implied="false" onDeleteCascade="false" schema="public" table="accounts"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="name" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="system_prompt" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="4" name="utc_created_on" nullable="false" remarks="" size="29" type="timestamp" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="pk_avatar" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="blog_posts" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="account_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="fk_blog_posts_accounts" implied="false" onDeleteCascade="false" schema="public" table="accounts"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="avatar_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="fk_blog_posts_avatars" implied="false" onDeleteCascade="false" schema="public" table="avatars"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="title" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="description" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="5" name="utc_created_on" nullable="false" remarks="" size="29" type="timestamp" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="image_url" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="short_description" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="pk_blog_post" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="knex_migrations" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('knex_migrations_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="serial" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="name" nullable="true" remarks="" size="255" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="batch" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="3" name="migration_time" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="knex_migrations_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="knex_migrations_lock" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('knex_migrations_lock_index_seq'::regclass)" digits="0" id="0" name="index" nullable="false" remarks="" size="10" type="serial" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="is_locked" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
+         <primaryKey column="index" sequenceNumberInPK="1"/>
+         <index name="knex_migrations_lock_pkey" unique="true">
+            <column ascending="true" name="index"/>
+         </index>
+      </table>
+      <table name="user_in_accounts" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="user_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="fk_user_in_accounts_users" implied="false" onDeleteCascade="false" schema="public" table="users"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="account_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="fk_user_in_accounts_accounts" implied="false" onDeleteCascade="false" schema="public" table="accounts"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="role" nullable="false" remarks="" size="2147483647" type="user_in_account_role" typeCode="12"/>
+         <primaryKey column="user_id" sequenceNumberInPK="1"/>
+         <primaryKey column="account_id" sequenceNumberInPK="2"/>
+         <index name="pk_user_in_accounts" unique="true">
+            <column ascending="true" name="user_id"/>
+            <column ascending="true" name="account_id"/>
+         </index>
+      </table>
+      <table name="users" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <child column="user_id" foreignKey="fk_user_in_accounts_users" implied="false" onDeleteCascade="false" schema="public" table="user_in_accounts"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="email" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="name" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="password" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="4" name="utc_created_on" nullable="false" remarks="" size="29" type="timestamp" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="pk_users" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="uq_users_email" unique="true">
+            <column ascending="true" name="email"/>
+         </index>
+      </table>
+   </tables>
+</database>
