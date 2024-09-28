@@ -1,8 +1,0 @@
-knex_migrations_lock
-knex_migrations
-user_in_accounts
-blog_posts
-avatar_inputs
-avatars
-users
-accounts
