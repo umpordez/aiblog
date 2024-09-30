@@ -7,3 +7,6 @@ dist/
 *.pid
 .tsbuildinfo
 *.m4a
+schemaspy/
+schemaspy*.jar
+postgresql*.jar
