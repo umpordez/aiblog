@@ -30,12 +30,9 @@ function getStep1Values() : YouTubeSearch {
     return { youtube_url };
 }
 
-$step1Form.addEventListener('submit', async (ev) => {
-    ev.preventDefault();
 
-    const values = getStep1Values();
-    validateZodSchema(YouTubeSearch, values, $step1Form);
-
+async function initPost(youtube_url: string) : Promise<void> {
+    const values = { youtube_url };
     loading.show();
 
     try {
@@ -55,4 +52,20 @@ $step1Form.addEventListener('submit', async (ev) => {
     } finally {
         loading.hide();
     }
+}
+
+$step1Form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+
+    const values = getStep1Values();
+    validateZodSchema(YouTubeSearch, values, $step1Form);
+
+    await initPost(values.youtube_url);
 });
+
+const urlParams = new URLSearchParams(window.location.search);
+const link = urlParams.get('link') || '';
+
+if (link) {
+    await initPost(link);
+}
