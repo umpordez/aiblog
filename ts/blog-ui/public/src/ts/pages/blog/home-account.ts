@@ -9,7 +9,10 @@ import loading from '../../components/loading.js';
 const $blogPostsElement = document
     .querySelector('#blogPosts') as HTMLDivElement;
 
-if (!$blogPostsElement) { throw new Error("UHHH OHHH"); }
+const $mainTitle = document
+    .querySelector('#mainTitle') as HTMLHeadingElement;
+
+if (!$blogPostsElement || !$mainTitle) { throw new Error("UHHH OHHH"); }
 
 interface BlogPost {
     id: string;
@@ -19,9 +22,19 @@ interface BlogPost {
     short_description: string;
 }
 
+interface Account {
+    id: string;
+    title: string;
+}
+
 let blogPosts : BlogPost[];
+let account : Account;
+
 try {
-    blogPosts = await ajaxAdapter.get(`/blog/${config.accountLink}/posts`);
+    const res = await ajaxAdapter.get(`/blog/${config.accountLink}/posts`);
+    blogPosts = res.blogPosts;
+    account = res.account;
+
     loading.hide();
 } catch (ex) {
     console.error(ex);
@@ -52,10 +65,11 @@ const html = blogPosts.map((p) => `
         ` : ''}
         <a
             href="/blog/${config.accountLink}/post/${p.id}"
-            class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 hover:no-underline">
-            Go full
+            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            Post Completo
         </a>
     </article>
 `).join('');
 
 $blogPostsElement.innerHTML = DOMPurify.sanitize(html);
+$mainTitle.innerHTML = `Posts de: ${account.title}`;

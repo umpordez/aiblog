@@ -16,22 +16,17 @@ try {
 }
 
 const html = `
-    <h1 class='text-xl font-bold leading-tight tracking-tight'>All blogs</h1>
-    <ul style="max-width: 400px">
-        ${blogs.map((b) =>`
-            <li style="
-                padding: 10px;
-                background: white;
-                border-radius: 5px;
-                margin-bottom: 5px
-            ">
-                <a href='/blog/${b.link}'>${b.title}</a>
-            </li>
-        `).join('')}
-    </ul>
+    ${blogs.map((b) =>`
+        <a
+            href='/blog/${b.link}'
+            class="text-center bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            ${b.title}
+        </a>
+    `).join('')}
+
 `;
 
-const $el = document.querySelector('main div');
+const $el = document.querySelector('main div .grid');
 if (!$el) { throw new Error('uhoh'); }
 
 $el.innerHTML = html;

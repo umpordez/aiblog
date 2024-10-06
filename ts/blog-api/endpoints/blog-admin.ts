@@ -80,7 +80,8 @@ async function createPostHandler(
         avatar_id: req.body.avatarId,
         title: DOMPurify.sanitize(req.body.title),
         short_description: DOMPurify.sanitize(req.body.short_description),
-        description: DOMPurify.sanitize(req.body.description)
+        description: DOMPurify.sanitize(req.body.description),
+        origin_youtube_url: req.body.origin_youtube_url
     };
 
     const blogPost = await req.ctx.blog

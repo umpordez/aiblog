@@ -29,6 +29,7 @@ interface AvatarInput {
     final_short_description: string;
     final_text: string;
     avatar: Avatar
+    youtube_url: string;
 }
 
 interface BlogPost {
@@ -36,6 +37,7 @@ interface BlogPost {
     description: string;
     short_description: string;
     avatarId: string;
+    origin_youtube_url: string;
 }
 
 const BlogPost = z.object({
@@ -86,6 +88,7 @@ function getBlogPostValues() : BlogPost {
     const description = values.get('description') as string;
 
     return {
+        origin_youtube_url: avatarInput.youtube_url,
         title,
         description,
         short_description,

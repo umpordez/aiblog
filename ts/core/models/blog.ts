@@ -8,6 +8,7 @@ interface BlogPostData {
     avatar_id: string;
     title: string;
     description: string;
+    origin_youtube_url: string;
 }
 
 interface BlogPost extends BlogPostData {

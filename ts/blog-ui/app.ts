@@ -5,6 +5,8 @@ import express from 'express';
 import type { NextFunction, Response } from 'express';
 import dirname from "../dirname.js";
 
+import knex from '../core/knex.js';
+
 import logger from '../core/logger.js';
 import {
     requestLogger,
@@ -116,7 +118,24 @@ app.get(
     '/blog/:blogLink/post/:postId',
     resolveBlogLinkMiddleware,
     buildHandler(async (req: AiBlogRequest, res: Response) => {
-        res.render('pages/blog/post-view', { postId: req.params.postId });
+        const { postId } = req.params;
+        const blogPost = await knex('blog_posts').where({
+            id: postId
+        }).first();
+
+        res.render('pages/blog/post-view', {
+            page: {
+                title: blogPost.title,
+                description: blogPost.short_description,
+                image: 'https://s3.sa-east-1.amazonaws.com/' +
+                    'public.obonde/iseiv2/u/' + 
+                    '7130f128-5528-4c11-a4da-ea8f5aec2a83/' +
+                    '5b6070ec-8c55-463e-b6c4-89e2aee89702-logo_copy.png',
+                site: req.url,
+                creator: 'Deividy Metheler Zachetti'
+            },
+            postId: req.params.postId
+        });
     }));
 
 app.get(

@@ -10,13 +10,16 @@ const { postId } = window;
 
 const $title = document.querySelector('#title') as HTMLHeadingElement;
 const $description = document.querySelector('#description') as HTMLDivElement;
+const $postVideoUrl = document
+    .querySelector('#postVideoUrl') as HTMLAnchorElement;
 
-if (!$title || !$description) { throw new Error("UH OH! :/"); }
+if (!$title || !$description || !$postVideoUrl) { throw new Error("UH OH! :/"); }
 
 interface BlogPost {
     id: string;
     title: string;
     description: string;
+    origin_youtube_url: string;
 }
 
 let blogPost : BlogPost;
@@ -39,3 +42,8 @@ try {
 
 $title.innerHTML = DOMPurify.sanitize(blogPost.title);
 $description.innerHTML  = DOMPurify.sanitize(blogPost.description);
+
+const youtubeUrl = blogPost.origin_youtube_url.split('&t=')[0];
+
+$postVideoUrl.setAttribute('href', youtubeUrl);
+$postVideoUrl.innerHTML = youtubeUrl;

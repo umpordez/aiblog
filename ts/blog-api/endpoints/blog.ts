@@ -38,7 +38,10 @@ async function getAllPostHandler(
         .blog
         .getAllPostsByAccountId(req.account.id);
 
-    res.status(200).json([...blogPosts])
+    res.status(200).json({
+        account: { title: req.account.title, id: req.account.id },
+        blogPosts
+    });
 }
 
 router.get('/post/:postId', buildHandler(getPostHandler));
