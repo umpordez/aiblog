@@ -43,7 +43,7 @@ try {
 $title.innerHTML = DOMPurify.sanitize(blogPost.title);
 $description.innerHTML  = DOMPurify.sanitize(blogPost.description);
 
-const youtubeUrl = blogPost.origin_youtube_url.split('&t=')[0];
+const youtubeUrl = (blogPost.origin_youtube_url || '').split('&t=')[0];
 
 $postVideoUrl.setAttribute('href', youtubeUrl);
 $postVideoUrl.innerHTML = youtubeUrl;

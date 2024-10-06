@@ -90,6 +90,43 @@ async function createPostHandler(
     res.status(200).json({ ok: true, blogPostId: blogPost.id });
 }
 
+async function postAvatarInputStatusRetryHandler(
+    req: ApiRequest,
+    res: Response
+) : Promise<void> {
+    if (!req.ctx || !req.account) {
+        throw new Error('UH Oh! Something veeeery odd is happening...')
+    }
+
+    const avatarInput = await req.ctx.avatar
+        .getInputByAccountAndId(req.account.id, req.params.avatarInputStatusId);
+
+    const { status } = avatarInput;
+
+    let redisEvent = 'avatar-input:transcribed';
+    let rewindStatus :
+        'transcribed' | 'waiting' | 'downloaded' = 'transcribed';
+
+    if ([ 'waiting', 'downloading' ].includes(status)) {
+        redisEvent = 'avatar-input:created';
+        rewindStatus = 'waiting';
+    } else if ([ 'downloaded', 'transcribing' ].includes(status)) {
+        redisEvent = 'avatar-input:downloaded';
+        rewindStatus = 'downloaded';
+    }
+
+    await req.ctx.avatar.updateAvatarInputData(
+        avatarInput.id,
+        {
+            status: rewindStatus,
+            error_message: null
+        }
+    )
+
+    req.ctx.redis.publishNoWait(redisEvent, avatarInput.id);
+    res.status(200).json({ ok: true });
+}
+
 router.post('/init-post', buildHandler(initPostHandler));
 router.post('/create-post', buildHandler(createPostHandler));
 
@@ -100,6 +137,10 @@ router.get(
 router.get(
     '/avatar-input/:avatarInputStatusId',
     buildHandler(getAvatarInputHandler));
+
+router.post(
+    '/avatar-input-status/:avatarInputStatusId/retry',
+    buildHandler(postAvatarInputStatusRetryHandler));
 
 export default function makeEndpoint (app: Express) {
     app.use(

@@ -12,12 +12,7 @@ export interface AvatarCreate {
     system_prompt: string;
 }
 
-interface AvatarInput {
-    id: string;
-    final_title: string;
-    final_short_description: string;
-    account_id: string;
-    youtube_url: string;
+interface AvatarInputWithStatus {
     status: 'waiting' |
         'downloading' |
         'downloaded' |
@@ -25,7 +20,18 @@ interface AvatarInput {
         'transcribed' |
         'creating' |
         'done'
+}
 
+interface AvatarInputUpdateData extends AvatarInputWithStatus {
+    error_message?: string | null
+}
+
+interface AvatarInput extends AvatarInputWithStatus {
+    id: string;
+    final_title: string;
+    final_short_description: string;
+    account_id: string;
+    youtube_url: string;
     avatar?: Avatar;
     transcription: string;
     final_text: string;
@@ -37,9 +43,19 @@ interface AvatarInputStatus {
     isDone: boolean;
     isAudioDone: boolean;
     isTranscriptionDone: boolean;
+    error_message?: string;
 }
 
 class AvatarModel extends BaseModel {
+    async updateAvatarInputErrorMessage(
+        avatarInputId: string,
+        errorMessage?: string
+    ) : Promise<void> {
+        await this.knex('avatar_inputs').update({
+            error_message: errorMessage
+        }).where({ id: avatarInputId });
+    }
+
     async create(accountId: string, { name, system_prompt }: {
         name: string,
         system_prompt: string
@@ -51,6 +67,15 @@ class AvatarModel extends BaseModel {
         }).returning('*');
 
         return insertResponse[0];
+    }
+
+    async updateAvatarInputData(
+        avatarInputId: string,
+        avatarInputData: AvatarInputUpdateData
+    ) : Promise<void> {
+        await this.knex('avatar_inputs').update({
+            ...avatarInputData
+        }).where({ id: avatarInputId });
     }
 
     async updateAvatarInputTranscriptionAndStatus(
@@ -138,6 +163,7 @@ class AvatarModel extends BaseModel {
         }).first();
 
         return {
+            error_message: avatarInput.error_message,
             isDone: avatarInput.status === 'done',
             isRunning: ![ 'done', 'waiting' ]
                 .includes(avatarInput.status),

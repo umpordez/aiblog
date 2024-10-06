@@ -58,9 +58,10 @@ async function doRequest(
             }
         }
 
-        if (ex.status === 401) {
+        if (ex.status === 401 || ex.status === 403) {
             sessionStorage.clear();
             localStorage.clear();
+            window.location.href = '/login';
         }
 
         errorStack.message = ex.message || ex.statusText;

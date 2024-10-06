@@ -10,17 +10,57 @@ interface AvatarInputStatus {
     isDone: boolean;
     isAudioDone: boolean;
     isTranscriptionDone: boolean;
+    error_message?: string;
 }
 
 const $button = document.querySelector('button') as HTMLButtonElement;
 const $status = document.querySelector('#statusWrapper') as HTMLDivElement;
+const $error = document.querySelector('#errorMessage') as HTMLDivElement;
 
-if (!$button || !$status) { throw new Error("UH OH! :/"); }
+if (!$button || !$status || !$error) { throw new Error("UH OH! :/"); }
 
 $button.disabled = true;
 
+function showRetryWrapper() : void {
+    const $retryWrapper = document
+        .querySelector('#retryWrapper') as HTMLDivElement;
+
+    const $retryLink = document
+        .querySelector('#retryWrapper a') as HTMLAnchorElement;
+
+    if (!$retryWrapper || !$retryLink) {
+        return;
+    }
+
+    $retryWrapper.classList.remove('hidden');
+    $retryLink.addEventListener('click', async (ev) => {
+        ev.preventDefault();
+
+        $error.innerHTML = '';
+        $error.classList.add('hidden');
+
+        try {
+            await ajaxAdapter.post(
+                `/blog-admin/${config.accountLink}` +
+                `/avatar-input-status/${avatarInputId}/retry`
+            );
+
+            setTimeout(async () => { await pollStatus(); }, 500);
+        } catch (ex) {
+            console.error(ex);
+            if (ex instanceof Error) {
+                alert(ex.message);
+            }
+        }
+    });
+}
+
 function renderStatus(status: AvatarInputStatus) : void {
     const lines : string[] = [];
+
+    if (status.isDone || status.error_message) {
+        showRetryWrapper();
+    }
 
     if (status.isDone) {
         lines.push('<li>Audio download done ✅</li>');
@@ -48,6 +88,7 @@ function renderStatus(status: AvatarInputStatus) : void {
         }
     }
 
+
     const html = `<ul class="list-disc px-5">${lines.join('')}</ul>`;
     $status.innerHTML = html;
 
@@ -55,7 +96,21 @@ function renderStatus(status: AvatarInputStatus) : void {
         $button.disabled = false;
         $button.classList.remove('opacity-20');
     }
+
+    if (status.error_message) {
+        $error.classList.remove('hidden');
+        $error
+            .innerHTML = `<strong>ERROR:</strong><br />${status.error_message}`;
+
+        const $allItems = document.querySelectorAll('ul.list-disc li');
+
+        for (const $item of $allItems) {
+            $item.innerHTML = $item.innerHTML.replace('...', ' ❌');
+        }
+    }
 }
+
+let pollTimer = setTimeout(pollStatus, 100);
 
 async function pollStatus() : Promise<void> {
    try {
@@ -72,10 +127,9 @@ async function pollStatus() : Promise<void> {
         console.error(ex);
     }
 
-    setTimeout(pollStatus, 1000);
+    clearTimeout(pollTimer);
+    pollTimer = setTimeout(pollStatus, 1000);
 }
-
-await pollStatus();
 
 $button.addEventListener('click', (ev) => {
     ev.preventDefault();

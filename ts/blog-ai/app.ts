@@ -5,7 +5,6 @@ import Context from '../core/context.js';
 import logger from '../core/logger.js';
 import GroqClient from '../core/external-clients/groq.js';
 
-
 const context = new Context();
 const mode = process.argv[2];
 
@@ -13,162 +12,212 @@ async function transcribeAudio(avatarInputId: string) : Promise<void> {
     const avatarInput = await context.avatar.getInputById(avatarInputId);
     if (!avatarInput.avatar) { throw new Error('UH OH! Something very odd..'); }
 
-    const account = await context.account
-        .getById(avatarInput.avatar.account_id);
+    try {
+        const account = await context.account
+            .getById(avatarInput.avatar.account_id);
 
-    const groq = new GroqClient(account.ai_api_key);
+        const groq = new GroqClient(account.ai_api_key);
 
-    logger.info([
-        `Transcribing: ${avatarInput.id} = ${avatarInput.filepath}`
-    ].join('\n'));
+        logger.info([
+            `Transcribing: ${avatarInput.id} = ${avatarInput.filepath}`
+        ].join('\n'));
 
-    const audioTranscription = await groq.transcribeAudio(
-        avatarInput.filepath
-    );
+        const audioTranscription = await groq.transcribeAudio(
+            avatarInput.filepath
+        );
 
-    await fs.promises.unlink(avatarInput.filepath);
-    await context.avatar.updateAvatarInputTranscriptionAndStatus(
-        avatarInput.id,
-        audioTranscription
-    );
+        await fs.promises.unlink(avatarInput.filepath);
+        await context.avatar.updateAvatarInputTranscriptionAndStatus(
+            avatarInput.id,
+            audioTranscription
+        );
 
-    logger.info(`Transcription: ${avatarInput.id} done!`);
-    context.redis.publishNoWait(
-        'avatar-input:transcribed',
-        avatarInputId
-    );
+        logger.info(`Transcription: ${avatarInput.id} done!`);
+        context.redis.publishNoWait(
+            'avatar-input:transcribed',
+            avatarInputId
+        );
+    } catch (ex) {
+        if (ex instanceof Error) {
+            await context.avatar.updateAvatarInputErrorMessage(
+                avatarInputId,
+                ex.message
+            );
+
+            logger.error(ex);
+            return;
+        }
+
+        console.error(ex);
+    }
 }
 
 async function createPost (avatarInputId: string) : Promise<void> {
     const avatarInput = await context.avatar.getInputById(avatarInputId);
     if (!avatarInput.avatar) { throw new Error('UH OH! Something very odd..'); }
 
-    const account = await context.account
-        .getById(avatarInput.avatar.account_id);
+    try {
+        const account = await context.account
+            .getById(avatarInput.avatar.account_id);
 
-    if (!avatarInput.avatar) {
-        throw new Error(`Something went wrong!`);
-    }
-
-    const groq = new GroqClient(account.ai_api_key);
-    logger.info(`Creating Post: ${avatarInput.id}`);
-
-    const blogPostChoices = await groq.createCompletions([
-        {
-            role: 'system',
-            content: `
-                You are a skilled blog writer.
-                Your output must be in a well formatted markdown,
-                making good use of white space and typography.
-                You are writing a blog post, should not mention the video.
-                This should be well written in the target language,
-                you are very good with words for your audience.
-                You must write a detailed blog post based on your
-                details using the reference text.
-            `
-        },
-
-        {
-            role: 'system',
-            content: avatarInput.avatar.system_prompt
-        },
-
-        {
-            role: 'user',
-            content: `reference text:\n${avatarInput.transcription}`
+        if (!avatarInput.avatar) {
+            throw new Error(`Something went wrong!`);
         }
-    ]);
 
-    const firstChoice = blogPostChoices[0];
-    if (!firstChoice || !firstChoice || !firstChoice.message) {
-        throw new Error('Something went wrong!');
-    }
+        const groq = new GroqClient(account.ai_api_key);
+        logger.info(`Creating Post: ${avatarInput.id}`);
 
-    const postMarkdown = firstChoice.message.content as string;
-    const blogTitleChoices = await groq.createCompletions([
-        {
-            role: 'system',
-            content: `
-                You are a skilled blog writer.
-                Your output must be a well written title,
-                it must have less then 250 characteres, you should
-                NOT describe why, must output only the title.
-                This should be well written in the target language,
-                you are very good with words for your audience.
-                Use the reference text to make your title.
+        const blogPostChoices = await groq.createCompletions([
+            {
+                role: 'system',
+                content: `
+                    You are a skilled blog writer.
+                    Your output must be in a well formatted markdown,
+                    making good use of white space and typography.
+                    You are writing a blog post, should not mention the video.
+                    This should be well written in the target language,
+                    you are very good with words for your audience.
+                    You must write a detailed blog post based on your
+                    details using the reference text.
+                `
+            },
 
-                Your output must be only one paragraph.
-            `
-        },
+            {
+                role: 'system',
+                content: avatarInput.avatar.system_prompt
+            },
 
-        {
-            role: 'system',
-            content: avatarInput.avatar.system_prompt
-        },
+            {
+                role: 'user',
+                content: `reference text:\n${avatarInput.transcription}`
+            }
+        ]);
 
-        {
-            role: 'user',
-            content: `reference text:\n${postMarkdown}`
+        const firstChoice = blogPostChoices[0];
+        if (!firstChoice || !firstChoice || !firstChoice.message) {
+            throw new Error('Something went wrong!');
         }
-    ]);
 
-    const blogSummarizeChoices = await groq.createCompletions([
-        {
-            role: 'system',
-            content: `
-                You are a skilled blog writer.
-                Your output must be a well written short description,
-                it must have less then 500 characteres, you should
-                NOT describe why, must output only the short description.
-                This should be well written in the target language,
-                you are very good with words for your audience.
-                Use the reference text to summarize your short text.
-                Your output must be only one paragraph.
-            `
-        },
+        const postMarkdown = firstChoice.message.content as string;
+        const blogTitleChoices = await groq.createCompletions([
+            {
+                role: 'system',
+                content: `
+                    You are a skilled blog writer.
+                    Your output must be a well written title,
+                    it must have less then 250 characteres, you should
+                    NOT describe why, must output only the title.
+                    This should be well written in the target language,
+                    you are very good with words for your audience.
+                    Use the reference text to make your title.
 
-        {
-            role: 'system',
-            content: avatarInput.avatar.system_prompt
-        },
+                    Your output must be only one paragraph.
+                `
+            },
 
-        {
-            role: 'user',
-            content: `reference text:\n${postMarkdown}`
+            {
+                role: 'system',
+                content: avatarInput.avatar.system_prompt
+            },
+
+            {
+                role: 'user',
+                content: `reference text:\n${postMarkdown}`
+            }
+        ]);
+
+        const blogSummarizeChoices = await groq.createCompletions([
+            {
+                role: 'system',
+                content: `
+                    You are a skilled blog writer.
+                    Your output must be a well written short description,
+                    it must have less then 500 characteres, you should
+                    NOT describe why, must output only the short description.
+                    This should be well written in the target language,
+                    you are very good with words for your audience.
+                    Use the reference text to summarize your short text.
+                    Your output must be only one paragraph.
+                `
+            },
+
+            {
+                role: 'system',
+                content: avatarInput.avatar.system_prompt
+            },
+
+            {
+                role: 'user',
+                content: `reference text:\n${postMarkdown}`
+            }
+        ]);
+
+        const firstChoiceBlogTitle = blogTitleChoices[0];
+        const firstChoiceBlogSummarize = blogSummarizeChoices[0];
+
+        let finalTitle = '';
+        let finalShortDescription = '';
+
+        if (firstChoiceBlogTitle) {
+            finalTitle = firstChoiceBlogTitle.message.content as string;
         }
-    ]);
 
-    const firstChoiceBlogTitle = blogTitleChoices[0];
-    const firstChoiceBlogSummarize = blogSummarizeChoices[0];
+        if (firstChoiceBlogSummarize) {
+            finalShortDescription = firstChoiceBlogSummarize.message.content as string;
+        }
 
-    let finalTitle = '';
-    let finalShortDescription = '';
+        await context.avatar.updateAvatarInputFullTextAndStatus(
+            avatarInput.id,
+            finalTitle,
+            finalShortDescription,
+            markdown(postMarkdown) as string
+        );
 
-    if (firstChoiceBlogTitle) {
-        finalTitle = firstChoiceBlogTitle.message.content as string;
+        logger.info(`Create Post Done: ${avatarInput.id} done!`);
+        context.redis.publishNoWait('avatar-input:done', avatarInputId);
+    } catch (ex) {
+        if (ex instanceof Error) {
+            await context.avatar.updateAvatarInputErrorMessage(
+                avatarInputId,
+                ex.message
+            );
+
+            logger.error(ex);
+            return;
+        }
+
+        console.error(ex);
     }
-
-    if (firstChoiceBlogSummarize) {
-        finalShortDescription = firstChoiceBlogSummarize.message.content as string;
-    }
-
-    await context.avatar.updateAvatarInputFullTextAndStatus(
-        avatarInput.id,
-        finalTitle,
-        finalShortDescription,
-        markdown(postMarkdown) as string
-    );
-
-    logger.info(`Create Post Done: ${avatarInput.id} done!`);
-    context.redis.publishNoWait('avatar-input:done', avatarInputId);
 }
 
 if (mode === '--transcribe') {
-    context.redis.subscribe('avatar-input:downloaded', transcribeAudio);
+    context.redis.subscribe('avatar-input:downloaded', async (msg: string) => {
+        try {
+            await transcribeAudio(msg);
+        } catch (ex) {
+            if (ex instanceof Error) {
+                logger.error(ex);
+                return;
+            }
+
+            console.error(ex);
+        }
+    });
 }
 
 if (mode === '--create-post') {
-    context.redis.subscribe('avatar-input:transcribed', createPost);
+    context.redis.subscribe('avatar-input:transcribed', async (msg: string) => {
+        try {
+            await createPost(msg);
+        } catch (ex) {
+            if (ex instanceof Error) {
+                logger.error(ex);
+                return;
+            }
+
+            console.error(ex);
+        }
+    });
 }
 
 logger.info(`Blog AI is ON! Mode: ${mode}`);

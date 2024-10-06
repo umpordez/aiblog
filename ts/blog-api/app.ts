@@ -74,6 +74,11 @@ makeAuthEndpoint(app);
 makeBlogAdminEndpoint(app);
 makeBlogEndpoint(app);
 
+app.use((err: Error, _req: ApiRequest, res: Response) => {
+    const statusCode = /Forbidden/.test(err.message) ? 403 : 500;
+    res.status(statusCode).send(err.message)
+})
+
 app.listen(process.env.BLOG_API_PORT, () => {
     logger.info(`http server opened on ${process.env.BLOG_API_PORT}`);
 });
